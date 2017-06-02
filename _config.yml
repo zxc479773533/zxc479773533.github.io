@@ -28,8 +28,8 @@ defaults:
 paginate: 20
 
 #### Site
-title : Jekyll Jacman
-tagline: A fresh looking and responsive theme for Jekyll
+title : A salted fish's blog
+tagline: A salted fish is working hard to be stronger.
 assets: /assets
 baseurl:
 
@@ -83,9 +83,9 @@ share_to: true #enable share-to buttons if true
 
 #### Author information
 author:
-  name: yitao      ## e.g. wuchong Author name
-  intro_line1:  "Hello ,I'm Larry Page in Google."    ## your introduction on the bottom of the page
-  intro_line2:  "This is my blog,believe it or not."  ## the 2nd line
+  name: Yue Pan      ## e.g. wuchong Author name
+  intro_line1:  "I am a student in HUST."    ## your introduction on the bottom of the page
+  intro_line2:  "Let's learn from each other!."  ## the 2nd line
   weibo:      ## e.g. wuchong1014 or 2176287895 for http://weibo.com/2176287895
   weibo_verifier:  ## e.g. b3593ceb Your weibo-show widget verifier ,if you use weibo-show it is needed.
   tsina:      ## e.g. 2176287895  Your weibo ID,It will be used in share button.
