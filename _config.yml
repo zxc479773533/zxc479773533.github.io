@@ -25,20 +25,15 @@ defaults:
 
 
 
-title: "RainyAlley"
-email: "sincerebravefight@gmail.com"
-description: "Developer"
-github_username:  "WakelessDragon"
+title: "A salted fish's blog'"
+email: "zxc479773533@gmail.com"
+description: "College Student"
+github_username:  "zxc479773533"
 swiftype_searchId: "ncwR9a8S9CTx2q9SgsJm"
 disqus_shortname: "rainyalley"
 
 
 
 
-url: "http://blog.rainyalley.com"
-imgrepo: "http://blog.rainyalley.com/static/img"
-
-
-#url: "http://127.0.0.1:4000"
-#imgrepo: "http://127.0.0.1:4000/static/img"
-
+url: "http://zxc479773533.github.io"
+imgrepo: "http://zxc479773533.github.io/static/img"
