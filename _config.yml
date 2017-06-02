@@ -20,8 +20,8 @@ defaults:
       type: "posts"
     values:
       layout: post
-      styles : [highlight.css,post.css,archive.css,article-list.css,category.css,style.css,tagCloud.css,tags.css]
-      scripts : [post.js,category.js,script.js,tagCloud.js,tags.js,toc.js]
+      styles : [highlight.css,post.css]
+      scripts : [post.js]
 
 
 
