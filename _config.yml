@@ -77,7 +77,7 @@ index:
   expand: true           ## default is unexpanding,so you can only see the short description of each post.
   excerpt_link: Read More
 
-close_aside: false  #close sidebar in post page if true
+close_aside: yes  #close sidebar in post page if true
 mathjax: true      #enable mathjax if true
 share_to: true #enable share-to buttons if true
 
@@ -114,7 +114,7 @@ links:
 
 #### Comment
 duoshuo_shortname:    ## e.g. wuchong   your duoshuo short name.       website: http://duoshuo.com
-disqus_shortname:     disqus_23bTJwPrSp
+disqus_shortname:     潘越
 hypercomments_id:     ## e.g. 91510     your hypercomments widget id.  website: http://hypercomments.com
 ## set only one of them
 ## duoshuo will be shutting down on June 1, 2017
