@@ -115,7 +115,7 @@ links:
 
 #### Comment
 duoshuo_shortname:    ## e.g. wuchong   your duoshuo short name.       website: http://duoshuo.com
-disqus_shortname:     disqus_23bTJwPrSp
+disqus_shortname:     ##disqus_23bTJwPrSp
 hypercomments_id:     ## e.g. 91510     your hypercomments widget id.  website: http://hypercomments.com
 ## set only one of them
 ## duoshuo will be shutting down on June 1, 2017
