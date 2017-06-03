@@ -1,6 +1,6 @@
 ---
 layout: post
-title: github.io创建纪念以及备注
+title: github.io创建纪念
 tags:
 - Others
 categories: Others
