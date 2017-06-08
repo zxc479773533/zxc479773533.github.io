@@ -17,7 +17,7 @@ categories: Algorithms
 好了，有了这些定义，我们提出一个问题：“如果我们想要实现从一片字符串中，搜索到我们想要的内容（类似Ctrl+F一样的功能），对字符串进行精确匹配，那我们该怎么办呢？”<br/>
 很显然，我们很快就能想到一个简单的算法：用一个指针指向主串的第一个字符，开始匹配，若不成功，则指针向前移位，重复操作直至成功。<br/>
 代码如下：
-```
+```C
 int Match_String(char *s, char *t) {
     //在主串中匹配子串，并返回子串在主串中的位置
     int i = 0, j = 0;
@@ -35,10 +35,10 @@ int Match_String(char *s, char *t) {
 ```
 接下来我们来考虑这个算法的时间复杂度，设主串的长度为n，子串的长度为m，则显然该算法的时间复杂度为O(m*n)。<br/>
 仔细思考一下算法的过程，我们会发现，如果像下面这样，在一次匹配失败后，指针前进至主串的下一个字符，就像下面这样：<br/>
-![](https://github.com/zxc479773533/zxc479773533.github.io/blob/master/_posts/images/KMP-Algorithm-01.png)
-![](https://github.com/zxc479773533/zxc479773533.github.io/blob/master/_posts/images/KMP-Algorithm-02.png)<br/>
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/KMP-Algorithm-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/KMP-Algorithm-02.png)<br/>
 但是，仔细看一下会发现，由于子串是"abcda"，经过上一次的匹配，已经知道，接下来主串肯定是"bcd"的序列，肯定不可能与开头的"a"匹配，因此这样的匹配比较是多余的，要是能直接将子串移动到下面这张图这样，就减少了很多的时间，于是就有了接下来要讲的KMP算法。<br/>
-![](https://github.com/zxc479773533/zxc479773533.github.io/blob/master/_posts/images/KMP-Algorithm-03.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/KMP-Algorithm-03.png)
 
 ## 算法主体
 
@@ -55,7 +55,7 @@ next(j) =
 * 0，j = 1或者如果找不到上述的s；（这里就是向前迈进一步的意思）
 
 有了next(j)函数之后，我们就可以用代码来实现KMP算法：
-```
+```C
 int KMP(char *s, char *t) {
     int i = 0, j = 0;
     while (s[i] && t[j]) {
@@ -83,7 +83,7 @@ int KMP(char *s, char *t) {
 
 先别急着就写代码，我们来看看这个算法是否能再优化一下。因为每次比较，都要用到next(j)函数，如果我们每一次都这样用定义递归计算一次，那复杂度简直的不可想象的。所以，我们建立一个数组next[j]用来存放子串每一位对应的next(j)函数值，这样，如果设主串的长度是n，子串的长度是m，那么整个算法的时间复杂度为O(n + m)。<br/>
 计算next[j]数组的函数如下：<br/>
-```
+```C
 void get_next(char *t, int *next) {
     int i = 1, j = 0;
     next[1] = 0;
@@ -98,7 +98,7 @@ void get_next(char *t, int *next) {
 }
 ```
 此时由于改成了用数组储存next函数，我们需要对KMP函数稍加修改一下：
-```
+```C
 int KMP(char *s, char *t, int *next) {
     int i = 0, j = 0;
     while (s[i] && t[j]) {
