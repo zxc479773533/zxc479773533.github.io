@@ -22,5 +22,5 @@ categories: Linux
 最终，我们配置好的效果如下：<br/>
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Grub-background-03.png)
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Grub-background-04.png)
-选择登录系统的具体细节<br/>
+<br/>选择登录系统的具体细节<br/>
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Grub-background-05.png)
