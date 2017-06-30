@@ -19,6 +19,7 @@ categories: Linux
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Grub-background-02.png)
 <br/>这里的desktop-image就是你在启动时的大背景，后面会有各处的字体字号等设置，可以根据需要自己修改。<br/><br/>
 最后在主题那里写上 `GRUB_THEME="/boot/grub/themes/starfield/theme.txt` 即可，如果想要替换自己的背景，可以把自己的图片改名为starfield.png并替换（注意得是有效png格式），或者自行修改配置文件。<br/><br/>
+最后，不要忘了更新配置文件：`grub-mkconfig -o /boot/grub/grub.cfg`<br/><br/>
 最终，我们配置好的效果如下：<br/>
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Grub-background-03.png)
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Grub-background-04.png)
