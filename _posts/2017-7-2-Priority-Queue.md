@@ -6,7 +6,7 @@ tags:
 - C++
 categories: Algorithms
 ---
-Unique Studio Lab 第一期任务，在完成之后整理一下经验。PS:第一次接触C++，花了大半天速成，部分代码可能尚存在C语言的习惯。
+Unique Studio Lab 第一期任务，在完成之后整理一下经验。PS:第一次接触C++，花了大半天速成C++，部分代码可能尚存在C语言的习惯。
 
 ## 定义和存储分析
 
@@ -32,7 +32,7 @@ Unique Studio Lab 第一期任务，在完成之后整理一下经验。PS:第�
 
 我们从上到下将每个元素从1开始标号，如下图所示
 
-![](images/Priority-Queue-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Priority-Queue-01.png)
 
 观察可以发现，每个结点的子结点都是该结点的两倍和两倍加一，每个结点的父结点都是由该结点除以二取整得到。所以，如果我们用数组实现的话，就可以利用下标的二倍关系方便的得到父结点或者子结点。结合C++的特性，我们用
 vector来实现该优先队列。这样就不必担心该优先队列数据上限的问题。
