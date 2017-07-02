@@ -225,10 +225,10 @@ typedef struct {
     int mu, nu, tu;
 } CrossList;
 
-void CreateSMatrix(CrossList *M) {
+CrossList* CreateSMatrix(void) {
     int i ,j;
     double a;
-    M = (CrossList *)malloc(sizeof(CrossList));
+    CrossList* M = (CrossList *)malloc(sizeof(CrossList));
     scanf("%d%d%d", &M->mu, &M->nu, &M->tu);//输入M的行数，列数和非零元个数
     M->rhead = (OLink *)malloc((M->mu + 1) * sizeof(OLink));
     M->chead = (OLink *)malloc((M->nu + 1) * sizeof(OLink));
@@ -263,6 +263,7 @@ void CreateSMatrix(CrossList *M) {
             }
         }
     }
+    return M;
 }
 ```
 
