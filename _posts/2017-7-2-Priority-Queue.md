@@ -6,7 +6,7 @@ tags:
 - C++
 categories: Algorithms
 ---
-Unique Studio Lab 第一期任务，在完成之后整理一下经验。PS:第一次接触C++，花了大半天速成C++，部分代码可能尚存在C语言的习惯。
+Unique Studio Lab 第一期任务，在完成之后整理一下经验。PS:第一次接触C++，花了大半天速成C++，部分代码可能尚存在C语言的习惯。【7.3更新：修改了算法，减少了复杂度】
 
 ## 定义和存储分析
 
@@ -40,55 +40,45 @@ vector来实现该优先队列。这样就不必担心该优先队列数据上�
 为了讨论的方便，优先队列的数据类型使用double，该类实现的代码如下：
 ```c++
 class Priority_queue {
-  public:
-    bool empty() const; //判断队列是否为空
-    size_t size() const; //返回队列中数据的个数
-    const T& top() const; //返回队列的头部数据
-    void push(const T& val); //在队列尾部增加一个数据
-    T pop(); //队列头部的数据出队
-  private:
-    vector<T> PriQueue; //存储类型vector
-    size_t DFS(int i) const; //对二叉树进行深度优先搜索
+    public:
+          
+        bool empty() const; //判断队列是否为空
+        size_t size() const; //返回队列中数据的个数
+        const T& top() const; //返回队列的头部数据
+        void push(const T& val); //在队列尾部增加一个数据
+        void pop(); //队列头部的数据出队
+    private:
+        vector<T> PriQueue; //存储类型vector
+        int currentsize = 0; //属性：当前队列大小
 };
 
 ```
+需要说明的是，这里我们使用了改类的一个属性currentsize来储存优先队列的长度，这样就省去了之后反复使用vector的size，push_back等方法。
 
 ## 算法实现
 
 ### empty()
 
-为了判断该优先队列是否为空，我们只需要判断该vector的第一个元素是否为0即可，因为新的元素总是会被添加到vector的最后。代码实现如下：
+队列是否为空，我们直接根据currentsize来判定。
 
 ```c++
 /* 判断队列是否为空,若为空，返回true */
 bool Priority_queue::empty() const {
-  double e = 1e-6; //给定一个判断是否为0的精确度
-  if (PriQueue[0] > e || PriQueue[0] < -e)
-    return false;
-  else
-    return true;
+    if (currentsize == 0)
+        return true;
+    else
+        return false;
 }
 ```
 
-要注意的就是，由于是double类型，在判断是否为0的时候，不能使用等号。
-
 ### size()
 
-实现size只需要对该二叉树实现一次DFS（深度优先搜索）即可，递推关系为：以该结点为根的树的结点个数 = 1 + 左子树的结点个数 + 右子树的结点个数。代码实现如下：
+实现size直接查看currentsize属性即可，这样省去了再搜索遍历的麻烦。
 
 ```c++
-/* 对二叉树进行深度优先搜索 */
-size_t Priority_queue::DFS(int i) const {
-  double e = 1e-6; //给定一个判断是否为0的精确度
-  if (PriQueue[i] > e || PriQueue[i] < -e)
-    return 1 + DFS(2 * i + 1) + DFS(2 * i + 2); //递归公式
-  else
-    return 0;
-}
-
 /* 返回队列中数据的个数 */
 size_t Priority_queue::size() const {
-  return this->DFS(0);
+    return currentsize;
 }
 ```
 
@@ -109,20 +99,21 @@ const T& Priority_queue::top() const {
 
 比较该结点和其父结点数据的大小，若该结点比其父结点大，则交换这两个结点。
 
-直至不满足上述的情况时终止。不难理解这样的操作不会破坏原二叉树的数据大小关系。代码实现如下：
+直至不满足上述的情况时终止。不难理解这样的操作不会破坏原二叉树的数据大小关系。只不过这里采用最后再放入新插入的值，避免了再使用一个交换函数，减少复杂度。代码实现如下：
 
 ```c++
 /* 在队列尾部增加一个数据 */
 void Priority_queue::push(const T& val) {
-  int k;
-  PriQueue.push_back(val);
-  k = PriQueue.size() - 1; //k是新增的位置的下标
-  while (PriQueue[k] > PriQueue[(k - 1) / 2])
-    swap(PriQueue[k], PriQueue[(k - 1) / 2]), k = (k - 1) / 2;
+    if (PriQueue.size() == 0)
+        PriQueue.resize(1);
+    if (currentsize == PriQueue.size() - 1) //重新分配空间
+        PriQueue.resize(PriQueue.size() * 2);
+    int k = ++currentsize; //k是新的空位置
+    for ( ; k > 1 && val > PriQueue[k / 2]; k /= 2)
+        PriQueue[k] = PriQueue[k / 2]; //上滤，把空位置上移
+    PriQueue[k] = val; //插入新值
 }
 ```
-
-在操作时要注意计算好各处下标的值，因为vector的下标和我们的标号是错开了一个的。
 
 ### pop()
 
@@ -132,31 +123,35 @@ void Priority_queue::push(const T& val) {
 
 比较该结点子结点的两个数据的大小，将两者中大的和该结点交换。
 
-直至根节点变成树叶为止。接下来交换根节点和vector的最后一个数据，并删除vector尾部的数据。代码实现如下：
+直至根节点变成树叶为止。接下来交换根节点和vector的最后一个数据，并删除vector尾部的数据。这里实现的方式和插入类似，不再使用交换函数。代码实现如下：
 
 ```c++
 /* 队列头部的数据出队 */
-T Priority_queue::pop() {
-  int m = 0, n, k = PriQueue.size() - 1;
-  double end = PriQueue[k];
-  while (PriQueue[2 * m + 1] || PriQueue[2 * m + 2]) {
-    n = (PriQueue[2 * m + 1] >= PriQueue[2 * m + 2])? 2 * m  + 1 : 2 * m + 2;
-    swap(PriQueue[m], PriQueue[n]);
-    m = n;
-  }
-  swap(PriQueue[m], end);
-  PriQueue[k] = 0;
-  return end;
+void Priority_queue::pop() {
+    if (empty())
+        cout << "This priority queue is empty!" << endl;
+    else {
+        int i, child; //child是i的子结点序号
+        T temp = PriQueue[currentsize--]; //将最后一个位置的值储存
+        for (i = 1; i * 2 <= currentsize; i = child) {
+            child = i * 2;
+            if (child != currentsize && PriQueue[child] < PriQueue[child + 1]) //选择大的子结点
+                child++;
+            if (temp < PriQueue[child]) //下虑，把空位置下移
+                PriQueue[i] = PriQueue[child];
+            else
+                break;
+        }
+        PriQueue[i] = temp;
+    }
 }
 ```
 
-要注意的是，在删除最后一个结点之前先用一个变量储存根节点的值，以便返回。
-
 ## 最终的头文件和实现
 
-将过程中用到的自定义函数也写入，最终完成的头文件如下：
+最终完善的头文件如下：
 
-```h
+```c++
 /* 说明，该优先队列以数据表示优先级，数据越大，表示优先级越高 */
 #include <iostream>
 #include <algorithm>
@@ -168,18 +163,17 @@ using std::cout;
 using std::endl; //测试用输出
 
 class Priority_queue {
-  public:
-    bool empty() const; //判断队列是否为空
-    size_t size() const; //返回队列中数据的个数
-    const T& top() const; //返回队列的头部数据
-    void push(const T& val); //在队列尾部增加一个数据
-    T pop(); //队列头部的数据出队
-  private:
-    vector<T> PriQueue; //存储类型vector
-    size_t DFS(int i) const; //对二叉树进行深度优先搜索
+    public:
+          
+        bool empty() const; //判断队列是否为空
+        size_t size() const; //返回队列中数据的个数
+        const T& top() const; //返回队列的头部数据
+        void push(const T& val); //在队列尾部增加一个数据
+        void pop(); //队列头部的数据出队
+    private:
+        vector<T> PriQueue; //存储类型vector
+        int currentsize = 0; //属性：当前队列大小
 };
-
-void swap(double &u, double &v); //交换两个数
 ```
 
 具体实现的cpp文件如下:
@@ -187,61 +181,53 @@ void swap(double &u, double &v); //交换两个数
 ```c++
 #include "priority_queue.h"
 
-/* 交换两个数 */
-void swap(double &u, double &v) {
- double t;
- t = u, u = v, v = t;
-}
-
 /* 判断队列是否为空,若为空，返回true */
 bool Priority_queue::empty() const {
-  double e = 1e-6; //给定一个判断是否为0的精确度
-  if (PriQueue[0] > e || PriQueue[0] < -e)
-    return false;
-  else
-    return true;
-}
-
-/* 对二叉树进行深度优先搜索 */
-size_t Priority_queue::DFS(int i) const {
-  double e = 1e-6; //给定一个判断是否为0的精确度
-  if (PriQueue[i] > e || PriQueue[i] < -e)
-    return 1 + DFS(2 * i + 1) + DFS(2 * i + 2); //递归公式
-  else
-    return 0;
+    if (currentsize == 0)
+        return true;
+    else
+        return false;
 }
 
 /* 返回队列中数据的个数 */
 size_t Priority_queue::size() const {
-  return this->DFS(0);
+    return currentsize;
 }
 
 /* 返回队列的头部数据 */
 const T& Priority_queue::top() const {
-  return PriQueue[0];
+        return PriQueue[1];
 }
-
 
 /* 在队列尾部增加一个数据 */
 void Priority_queue::push(const T& val) {
-  int k;
-  PriQueue.push_back(val);
-  k = PriQueue.size() - 1; //k是新增的位置的下标
-  while (PriQueue[k] > PriQueue[(k - 1) / 2])
-    swap(PriQueue[k], PriQueue[(k - 1) / 2]), k = (k - 1) / 2;
+    if (PriQueue.size() == 0)
+        PriQueue.resize(1);
+    if (currentsize == PriQueue.size() - 1) //重新分配空间
+        PriQueue.resize(PriQueue.size() * 2);
+    int k = ++currentsize; //k是新的空位置
+    for ( ; k > 1 && val > PriQueue[k / 2]; k /= 2)
+        PriQueue[k] = PriQueue[k / 2]; //上滤，把空位置上移
+    PriQueue[k] = val; //插入新值
 }
 
 /* 队列头部的数据出队 */
-T Priority_queue::pop() {
-  int m = 0, n, k = PriQueue.size() - 1;
-  double end = PriQueue[k];
-  while (PriQueue[2 * m + 1] || PriQueue[2 * m + 2]) {
-    n = (PriQueue[2 * m + 1] >= PriQueue[2 * m + 2])? 2 * m  + 1 : 2 * m + 2;
-    swap(PriQueue[m], PriQueue[n]);
-    m = n;
-  }
-  swap(PriQueue[m], end);
-  PriQueue[k] = 0;
-  return end;
+void Priority_queue::pop() {
+    if (empty())
+        cout << "This priority queue is empty!" << endl;
+    else {
+        int i, child; //child是i的子结点序号
+        T temp = PriQueue[currentsize--]; //将最后一个位置的值储存
+        for (i = 1; i * 2 <= currentsize; i = child) {
+            child = i * 2;
+            if (child != currentsize && PriQueue[child] < PriQueue[child + 1]) //选择大的子结点
+                child++;
+            if (temp < PriQueue[child]) //下虑，把空位置下移
+                PriQueue[i] = PriQueue[child];
+            else
+                break;
+        }
+        PriQueue[i] = temp;
+    }
 }
 ```
