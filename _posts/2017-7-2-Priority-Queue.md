@@ -89,7 +89,7 @@ size_t Priority_queue::size() const {
 ```c++
 /* 返回队列的头部数据 */
 const T& Priority_queue::top() const {
-  return PriQueue[0];
+  return PriQueue[1];
 }
 ```
 
