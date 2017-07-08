@@ -6,7 +6,7 @@ tags:
 - C++
 categories: Algorithms
 ---
-Unique Studio Lab 第一期任务，在完成之后整理一下经验。
+Unique Studio Lab 第一期任务，在完成之后整理一下经验。【有图！后面插入删除有我画的详细的图解！】
 
 ## 从二叉搜索树，AVL树谈起
 
@@ -118,10 +118,10 @@ class Set {
         void ins(RBTNode* tree, RBTNode* node); //插入
         void del(RBTNode* node); //删除
         void _clear(RBTNode* tree); //删除
-        int _count(const T&); //判断数据是否存在
+        int _count(const T&) const; //判断数据是否存在
         size_t _size(RBTNode*  tree); //计数
         /* 内部操作函数 */
-        RBTNode* find(RBTNode* tree, const T&); //查找
+        RBTNode* find(RBTNode* tree, const T&) const; //查找
         RBTNode* find_min(RBTNode* tree); //查找最小值
         RBTNode* find_max(RBTNode* tree); //查找最大值
         /* 结点相关操作 */
@@ -135,10 +135,12 @@ class Set {
         void changecolor(RBTNode* tree); //执行改色
         /* 插入删除的辅助函数 */
         void insadjust(RBTNode* node); //插入调整
+        void replace(RBTNode* P, RBTNode* N); //结点替换
         void del_adjust1(RBTNode* node); //删除调整一
         void del_adjust2(RBTNode* node); //删除调整二
         void del_adjust3(RBTNode* node); //删除调整三
         void del_adjust4(RBTNode* node); //删除调整四
+        void del_adjust5(RBTNode* node); //删除调整五
 };
 ```
 ## 辅助操作函数
@@ -149,7 +151,7 @@ class Set {
 
 ```c++
 /* 查找 */
-RBTNode* Set::find(RBTNode* tree, const T& key) {
+RBTNode* Set::find(RBTNode* tree, const T& key) const{
     if (tree == NULL)
         return NULL;
     else {
@@ -231,19 +233,26 @@ RBTNode* Set::uncle(RBTNode* tree) {
 /* 清空树接口 */
 void Set::clear() {
     _clear(root);
+    root = NULL;
 }
 
 /* 清空树实现 */
 void Set::_clear(RBTNode* tree) {
-    while(tree != NULL) {
-        delete(tree->left);
-        delete(tree->right);
-        delete(tree);
-    }
+    if (tree->left != NULL)
+        _clear(tree->left);
+    else if (tree->right != NULL)
+        _clear(tree->right);
+    delete(tree);
+    tree = NULL;
 }
 
 /* 判断数据是否存在接口 */
-int Set::_count(const T& key) {
+int Set::count(const T& key) const {
+    return _count(key);
+}
+
+/* 判断数据是否存在实现 */
+int Set::_count(const T& key) const{
     if (find(root, key) != NULL)
         return 1;
     else
@@ -276,8 +285,300 @@ size_t Set::_size(RBTNode*  tree) {
 
 我们的重点，也是红黑树实现的难点在于插入和删除操作。在此之前，我们先解决几个调整树的基本操作。
 
+
 ### 左旋
+
+类似于AVL树，左旋和右旋操作目的是平衡树的高度，以满足红黑树的 “所有路径上黑色结点的数目相同” 的条件。
+
+红黑树左旋的基本操作和AVL树一样，唯一不同的是要交换k1和k2结点的颜色，左旋演示的动画效果如下：
+
+![](images/LLRBTree-05.gif)
+
+实现的代码如下：
+
+```c++
+/* 执行左旋 */
+void Set::leftrotation(RBTNode* k1) {
+    RBTNode *k2 = k1->right;
+    RBTNode *p = k1->parent;
+    RBTColor t = k1->color;
+    k1->right = k2->left;
+    if (k2->left != NULL)
+        k2->left->parent = k1;
+    k2->left = k1;
+    k1->parent = k2;
+    if (p != NULL && p->left == k1)
+        p->left = k2;
+    else if (p != NULL && p->right == k1)
+        p->right = k2;
+    k2->parent = p;
+    k1->color = k2->color;
+    k2->color = t;
+    if (k1 == root)
+        root = k2;
+}
+```
 
 ### 右旋
 
+类似于左旋的算法，我们可以轻易写出右旋的算法，右旋演示的动画效果如下：
+
+![](images/LLRBTree-06.gif)
+
+实现的代码如下：
+
+```c++
+/* 执行右旋 */
+void Set::rightrotation(RBTNode* k1) {
+    RBTNode *k2 = k1->left;
+    RBTNode *p = k1->parent;
+    RBTColor t = k1->color;
+    k1->left = k2->right;
+    if (k2->right != NULL)
+        k2->right->parent = k1;
+    k2->right = k1;
+    k1->parent = k2;
+    if (p != NULL && p->left == k1)
+        p->left = k2;
+    else if (p != NULL && p->right == k1)
+        p->right = k2;
+    k2->parent = p;
+    k1->color = k2->color;
+    k2->color = t;
+    if (k1 == root)
+        root = k2;
+}
+```
+
+在写左旋和右旋的时候，要注意以下几点：
+
+* 由于我们把NULL指针当做黑色的叶子结点，因此必须讨论k2的儿子是否存在的问题。
+* 更改父结点的时候，要讨论父结点不存在的情况，这个时候就不用管父结点的儿子指针。
+* 旋转的时候如果动了根结点，要重新指定根结点的值。
+
 ### 改色
+
+改色的操作在红黑树中并不存在，是左倾红黑树的一个操作，目的是为了消除红色结点在右侧的情况，改色的过程如下图：
+
+![](images/LLRBTree-07.png)
+
+如果一个黑色结点X的两个儿子都是红色，那么把这两个儿子改为黑色，把X改为红色。该过程实现的代码如下：
+
+```c++
+/* 执行改色 */
+void Set::changecolor(RBTNode* tree) {
+    if (tree != root) {
+        if (tree->color == BLACK && tree->left->color == RED && tree->right->color == RED) {
+            tree->left->color = tree->right->color = BLACK;
+            tree->color = RED;
+        }
+    }
+    else
+        tree->left->color = tree->right->color = BLACK;
+}
+```
+
+要注意，如果该结点就是根结点，就不必再把该结点改为红色，因为所有的路径都是要经过它的。
+
+## 插入和删除
+
+插入和删除是红黑树里的重头戏，也是最为麻烦的部分。
+
+***PS：我感觉左倾红黑树和原版红黑树相比，这两种操作各自有各自的需要多讨论的地方，并非左倾红黑树一定简单些***
+
+### 插入操作insert
+
+分析一下插入需要做什么，在我们执行一次普通的二叉搜索树的插入操作后，是否就完成了呢？
+
+并不，因为新插入的结点如果是黑色，那么一定打破了 “从根结点到任意叶子结点的路径上黑色结点的个数相等” 这条规则，所以我们总是插入红色的结点，如果我们插入在黑色结点的左儿子位置，那么很幸运，我们的操作完成了。如果不是这种情况呢？那么我们就需要调整了，于是我们用一个insadjust()函数来进行对树的调整，以使得它重新满足红黑树的平衡性质。
+
+这个整体流程的代码如下：
+
+```c++
+/* 插入指定的结点接口 */
+void Set::insert(const T& key) {
+    RBTNode* new_node = new RBTNode(RED, key, NULL, NULL, NULL);
+    if (root == NULL)
+        root = new_node;
+    else
+        ins(root, new_node);
+    insadjust(new_node);
+}
+```
+
+二叉搜索树插入的代码如下，并不需要多说：
+
+```c++
+/* 插入指定的结点实现 */
+void Set::ins(RBTNode* tree, RBTNode* node) {
+    RBTNode *p = tree, *pre = NULL;
+    while (p != NULL) {
+        if (p->key == node->key)
+            break;
+        else if (p->key > node->key) {
+            pre = p;
+            p = p->left;
+        }
+        else if (p->key < node->key) {
+            pre = p;
+            p = p->right;
+        }
+        if (p == NULL) {
+            if (pre->key > node->key)
+                pre->left = node;
+            else
+                pre->right = node;
+            node->parent = pre;
+            delete(p);
+        }
+    }
+}
+```
+
+好了，接下来我们来看插入一个新的红色结点之后之后的调整。
+
+首先，要记得讨论根结点插入的情形，直接给黑色。
+
+***在接下来的讨论中，N表示新插入的结点，P表示父结点，G表示祖父结点，U表示叔父结点***
+
+接着开始讨论父结点的颜色，：
+
+&emsp;&emsp;一，如果P是黑色，那么有两种情况：
+
+&emsp;&emsp;&emsp;&emsp;1.若是以左儿子插入，则调整完成，没有破坏任何性质
+
+&emsp;&emsp;&emsp;&emsp;2.若是以右儿子插入，则红色结点出现在了右侧，违反左倾红黑树的要求，此时对P执行一次左旋即可。
+
+&emsp;&emsp;二，如果P是红色，那么P一定也存在父结点，我们称之为祖父结点，此时也有两种情况：
+
+&emsp;&emsp;&emsp;&emsp;1.若是以左儿子插入，则首先对G执行一次右旋，平衡黑色结点个数。接下来对P执行一次改色，以消除右侧的红色。此时该结构的“根结点”P是红色，我们可以把P当做新插入的结点进行递归操作。
+
+&emsp;&emsp;&emsp;&emsp;2.若是以右儿子插入，则首先对P进行一直左旋，接下来的结构便和第一种情形一致了。
+
+文字可能不方便理解，我把整个步骤画了个图：
+
+![](images/LLRBTree-08.png)
+
+该调整实现的代码如下：
+
+```c++
+/* 插入调整 */
+void Set::insadjust(RBTNode* node) {
+    if (node->parent == NULL) //若是根结点
+        node->color = BLACK;
+    else {
+        if (node->parent->color == BLACK) { //若父结点为黑
+            if(node == node->parent->right) {
+                if (sibling(node) == NULL || sibling(node)->color == BLACK)
+                    leftrotation(node->parent);
+                else {
+                    changecolor(node->parent);
+                    insadjust(node->parent);
+                }
+            }
+        }
+        else { //若父结点为红
+            if (node == node->parent->left) { //若以左儿子插入
+                rightrotation(grandparent(node));
+                changecolor(node->parent);
+                insadjust(node->parent); //把node->parent视为刚插入的结点递归
+            }
+            else { //若以右儿子插入
+                leftrotation(node->parent);
+                rightrotation(node->parent);
+                changecolor(node);
+                insadjust(node); //把node视为刚插入的结点递归            
+            }
+        }
+    }
+}
+```
+
+### 删除操作erase
+
+相比插入操作，删除操作就要复杂了很多。首先，类似于二叉搜索树的删除，我们也要分这三种情况：
+
+* 如果要删的结点有两个子结点，那么我们可以复制左子树中大的元素的值到该结点，然后删除那个最小元，就变成了删只有一个儿子的结点的操作。
+* 如果要删的结点是叶子结点，那么我们把该结点的一个NULL指针当做它的儿子，也变成了删只有一个儿子的结点的操作。
+* 如果要删的结点只有一个儿子，接下来还要分三种情况：
+
+&emsp;&emsp;&emsp;&emsp;1. 如果要删除的是红色结点，那么我们用它的儿子替换它就好。
+
+&emsp;&emsp;&emsp;&emsp;2. 如果要删除的结点是黑色，并且它的儿子是红色，那么我们直接把它的儿子变成红色，然后替换它即可。
+
+&emsp;&emsp;&emsp;&emsp;3.唯一复杂的是要删除的结点和它的儿子均为黑色的时候，我们也先用它的儿子进行一次替换，然后开始调整。
+
+删除的具体体现就在于替换上，在写替换函数的时候，记得把要删的结点释放了。
+
+上述过程具体实现的代码如下：
+
+```c++
+/* 删除指定的结点接口 */
+void Set::erase(const T& key) {
+    RBTNode *node = find(root, key);
+    if (node != NULL)
+        del(node);
+}
+
+/* 结点替换 */
+void Set::replace(RBTNode* node, RBTNode* N) {
+    RBTNode *P = node->parent; //父结点    
+    if (P == NULL) { //若要被换掉的是根结点
+        if (N != NULL)
+            N->parent = NULL;
+        root = N;
+    }
+    else {
+        if (P->left == node)
+            P->left = N;
+        else
+            P->right = N;
+    }
+}
+
+/* 删除指定的结点实现 */
+void Set::del(RBTNode* node) {
+    if (node->left != NULL && node->left != NULL) { //若要删除的结点有两个子结点
+        RBTNode *max = find_max(node->left);
+        node->key = max->key;
+        del(max);
+    }
+    else { //其他情况，若是叶子把一个NULL当做儿子
+        RBTNode *P = node->parent; //父结点
+        RBTNode *N = son(node); //儿子结点
+        RBTColor N_color = (N != NULL)? N->color : BLACK; //儿子结点颜色，空结点当做黑色
+        if (node->color == RED) { //若要删除的结点为红
+            replace(node, N); //用N替换该结点
+            if (N != NULL)
+                N->parent = P;
+            delete(node);
+        }
+        else if (node->color == BLACK && N_color == RED) { //若要删除的结点为黑，其儿子为红
+            N->color = BLACK; //将其变成黑
+            replace(node, N); //用N替换该结点
+            N->parent = P; //此时N一定非空
+            delete(node);
+        }
+        else { //若该结点和N均为黑色(N可能为NULL)
+            replace(node, N); //用N替换该结点            
+            if (N != NULL) {
+                N->parent = P;
+                del_adjust1(N); //进入情形一
+            }
+            delete(node);
+        }
+    }
+}
+```
+
+接下来要做的是调整操作，我们分五步来执行调整。
+
+```c++
+/* 删除调整一 */
+void Set::del_adjust1(RBTNode* N) {
+    if (N != root) //若N不是根节点，进入情形二
+        del_adjust2(N);
+}
+```
+
+![](images/LLRBTree-09.png)
