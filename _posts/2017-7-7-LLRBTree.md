@@ -54,7 +54,7 @@ AVL树的基本算法完全继承二叉搜索树，需要新增的是为了使�
 
 可以看出实际上双旋转就是两个单旋转的结合而已。
 
-事实上，这几种旋转的实现也是简单的，这里不多讲，我们的重点在后面。以上两种数据结构实现的C++代码可以在 <a src='https://github.com/zxc479773533/uniquelab-2017-summer-assignment-1'>这里</a>里面查看。
+事实上，这几种旋转的实现也是简单的，这里不多讲，我们的重点在后面。以上两种数据结构实现的C++代码可以在[这里](https://github.com/zxc479773533/uniquelab-2017-summer-assignment-1)查看。
 
 ## 红黑树，左倾红黑树
 
@@ -72,7 +72,7 @@ AVL树的基本算法完全继承二叉搜索树，需要新增的是为了使�
 
 接下来我们讨论的是左倾红黑树(Left-leaning Red–Black Tree)，即增加了一条限制：所有的红色结点都位于其父结点的左儿子位置上。相对于红黑树来说，左倾红黑树实现的核心代码就要少了很多，要讨论的情形也少了一些
 
->关于LLRBTree，我相信 <a src='http://www.cs.princeton.edu/~rs/talks/LLRB/RedBlack.pdf'>这篇论文</a> 是极好的，想要深刻，完全的学习LLRBTree可以阅读这篇论文。
+>关于LLRBTree，我相信[这篇论文](http://www.cs.princeton.edu/~rs/talks/LLRB/RedBlack.pdf)</a> 是极好的，想要深刻，完全的学习LLRBTree可以阅读这篇论文。
 
 ## 左倾红黑树的基本操作和类实现
 
@@ -491,5 +491,5 @@ RBTNode* Set::del(RBTNode* tree, T key) {
 
 这里我就不再贴代码了，还费时间，具体见如下github地址
 
-<a src="https://github.com/zxc479773533/uniquelab-2017-summer-assignment-1/blob/master/set.h">头文件<a>&emsp;&emsp;
-<a src="https://github.com/zxc479773533/uniquelab-2017-summer-assignment-1/blob/master/set.cpp">具体实现文件</a>
+[头文件](https://github.com/zxc479773533/uniquelab-2017-summer-assignment-1/blob/master/set.h)&emsp;&emsp;
+[具体实现文件](https://github.com/zxc479773533/uniquelab-2017-summer-assignment-1/blob/master/set.cpp)
