@@ -42,13 +42,15 @@ AVL树的基本算法完全继承二叉搜索树，需要新增的是为了使�
 
 两种单旋转如下图：
 
-![](images/LLRBTree-01.jpg)
-![](images/LLRBTree-02.jpg)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-01.jpg)
+
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-02.jpg)
 
 两种双旋转如下图：
 
-![](images/LLRBTree-03.jpg)
-![](images/LLRBTree-04.jpg)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-03.jpg)
+
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-04.jpg)
 
 可以看出实际上双旋转就是两个单旋转的结合而已。
 
@@ -243,7 +245,7 @@ size_t Set::size() {
 
 红黑树左旋的基本操作和AVL树一样，唯一不同的是要交换k1和k2结点的颜色，左旋演示的动画效果如下：
 
-![](images/LLRBTree-05.gif)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-05.gif)
 
 实现的代码如下：
 
@@ -263,7 +265,7 @@ RBTNode* Set::rotate_left(RBTNode* k1) {
 
 类似于左旋的算法，我们可以轻易写出右旋的算法，右旋演示的动画效果如下：
 
-![](images/LLRBTree-06.gif)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-06.gif)
 
 实现的代码如下：
 
@@ -289,7 +291,7 @@ RBTNode* Set::rotate_right(RBTNode* k1) {
 
 改色的操作在红黑树中并不存在，是左倾红黑树的一个操作，目的是为了消除红色结点在右侧的情况，改色的过程如下图：
 
-![](images/LLRBTree-07.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-07.png)
 
 如果一个黑色结点X的两个儿子都是红色，那么把这两个儿子改为黑色，把X改为红色。该过程实现的代码如下：
 
@@ -326,7 +328,7 @@ RBTNode* Set::fix_up(RBTNode* node) {
 
 图示如下：
 
-![](images/LLRBTree-08.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-08.png)
 
 经过一番这样的操作，父结点以下的结构都调整好了，接下来只需要递归的考虑父结点的问题就好了。
 
@@ -397,7 +399,7 @@ RBTNode* Set::move_red_right(RBTNode* tree) {
 ```
 
 这两个函数的图解如下：
-![](images/LLRBTree-09.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/LLRBTree-09.png)
 
 接下来，我们先看一个简单的问题，怎样删掉最小结点。
 
