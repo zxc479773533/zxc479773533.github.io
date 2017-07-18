@@ -17,7 +17,7 @@ categories: Algorithms
 
 矩阵的加法和乘法：两个同型矩阵之间可以做加法，对应数相加即可。而乘法须是m * n矩阵和n * p矩阵相乘，他们乘积矩阵C是一个m * p矩阵，它的每一个元素为：
 
-![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Sparse-Matrix-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/2017-6-27-Sparse-Matrix/Sparse-Matrix-01.png)
 
 矩阵的转置：把矩阵A的行和列互相交换所产生的矩阵称为A的转置矩阵，这一过程称为矩阵的转置。
 
@@ -127,7 +127,7 @@ void FastTransposeSMatrix(TSMatrix M, TSMatrix T) {
 
 矩阵相乘，在上面已经介绍过，乘积矩阵的 (i,j) 元的算法公式如下：
 
-![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Sparse-Matrix-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/2017-6-27-Sparse-Matrix/Sparse-Matrix-01.png)
 
 对于二维数组存储的矩阵，其乘积算法是十分明确的，直接根据公式，有
 
@@ -209,7 +209,7 @@ void MultSMatrix(RLSMatrix M, RLSMatrix N, RLSMatrix Q) {
 
 对于矩阵这个二维图形(暂且称作图形吧)，可以用一个十字链表构成网状结构来存储，对于每个元素，设置一个right指针和一个down指针即可。如下图所示。【注意此时十字链表的头指针可不是一个，而是一行和一列】
 
-![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Sparse-Matrix-02.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/2017-6-27-Sparse-Matrix/Sparse-Matrix-02.png)
 
 创建这样十字链表的算法实际上就是多个链表插入和删除的操作集合，代码如下：
 
