@@ -960,6 +960,7 @@ if (ip.proto == TCP && tcp.dst == 80)
         msg("zapped Accept-Encoding!\n");
     }
 }
+
 if (ip.proto == TCP && tcp.src == 80)
 {
     replace("<head>", "<head><script type=\"text/javascript\">alert('Big brother is watching at you');</script>");
