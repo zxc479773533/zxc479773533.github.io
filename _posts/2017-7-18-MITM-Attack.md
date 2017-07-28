@@ -40,7 +40,7 @@ ARP欺骗的实现可以发送伪造的ARP应答包或者请求包，一旦目�
 
 首先我们给出一些定义，这些定义在一些头文件里面有定义，这里我们自己定义一下
 
-```c
+```h
 /* ethernet type */
 #define EPT_IPv4    0x0800
 #define EPT_IPv6    0x86dd
