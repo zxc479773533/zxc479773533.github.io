@@ -427,7 +427,15 @@ libnet 是一个小型的接口函数库，主要用 C 语言写成，提供了�
 
 该函数用于释放资源，当创建失败或者是发送之后，及时释放资源。
 
-`libnet_ptag_t libnet_build_ethernet(u_int8_t*dst, u_int8_t *src,u_int16_ttype, u_int8_t*payload,u_int32_tpayload_s, libnet_t*l,libnet_ptag_t ptag )`
+```c
+libnet_ptag_t libnet_build_ethernet(u_int8_t *dst,
+                                     u_int8_t *src,
+                                     u_int16_t type,
+                                     u_int8_t *payload,
+                                     u_int32_t payload_s,
+                                     ibnet_t *l,
+                                     libnet_ptag_t ptag)
+```
 
 该函数用于构建以太网帧头部，各参数为：
 
@@ -444,7 +452,21 @@ libnet 是一个小型的接口函数库，主要用 C 语言写成，提供了�
 * 成功：协议标记
 * 失败：-1
 
-`libnet_ptag_t libnet_build_arp(u_int16_t hrd, u_int16_t pro,u_int8_t hln, u_int8_t pln，u_int16_t op, u_int8_t *sha,u_int8_t *spa, u_int8_t *tha，u_int8_t *tpa, u_int8_t *payload，u_int32_t payload_s, libnet_t *l,libnet_ptag_t ptag )`
+```c
+libnet_ptag_t libnet_build_arp(u_int16_t hrd,
+                               u_int16_t pro,
+                               u_int8_t hln,
+                               u_int8_t pln,
+                               u_int16_t op,
+                               u_int8_t *sha,
+                               u_int8_t *spa,
+                               u_int8_t *tha,
+                               u_int8_t *tpa,
+                               u_int8_t *payload,
+                               u_int32_t payload_s,
+                               libnet_t *l,
+                               libnet_ptag_t ptag)
+```
 
 该函数用于构建ARP包头部，各参数为：
 
@@ -467,7 +489,21 @@ libnet 是一个小型的接口函数库，主要用 C 语言写成，提供了�
 * 成功：协议标记
 * 失败：-1
 
-`libnet_ptag_t libnet_build_ipv4(u_int16_t ip_len, u_int8_t tos,u_int16_t id, u_int16_t flag,u_int8_t ttl, u_int8_t prot,u_int16 sum, u_int32_t src,u_int32_t dst, u_int8_t *payload,u_int32_t payload_s,libnet_t *l,libnet_ptag_t ptag )`
+```c
+libnet_ptag_t libnet_build_ipv4(u_int16_t ip_len,
+                                u_int8_t tos,
+                                u_int16_t id,
+                                u_int16_t flag,
+                                u_int8_t ttl,
+                                u_int8_t prot,
+                                u_int16 sum,
+                                u_int32_t src,
+                                u_int32_t dst,
+                                u_int8_t *payload,
+                                u_int32_t payload_s,
+                                libnet_t *l,
+                                libnet_ptag_t ptag)
+```
 
 该函数用于构建IP数据包头部，各参数为：
 
@@ -490,7 +526,21 @@ libnet 是一个小型的接口函数库，主要用 C 语言写成，提供了�
 * 成功：协议标记
 * 失败：-1
 
-`libnet_ptag_t libnet_build_tcp(u_int16_t sp, u_int16_t dp,u_int32_t seq, u_int32_t ack,u_int8_t control, u_int16_t win,u_int16_t sum, u_int16_t urg,u_int16_t len, u_int8_t *payload,u_int32_t payload_s, libnet_t *l,libnet_ptag_t ptag )`
+```
+libnet_ptag_t libnet_build_tcp(u_int16_t sp,
+                               u_int16_t dp,
+                               u_int32_t seq,
+                               u_int32_t ack,
+                               u_int8_t control,
+                               u_int16_t win,
+                               u_int16_t sum,
+                               u_int16_t urg,
+                               u_int16_t len,
+                               u_int8_t *payload,
+                               u_int32_t payload_s,
+                               libnet_t *l,
+                               libnet_ptag_tptag)
+```
 
 该函数用于构建TCP数据包，各参数为：
 
