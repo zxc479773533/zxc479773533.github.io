@@ -42,30 +42,6 @@ u_short checksum(u_short *buf, int len) {
 
 代码是非常简单的，接下来我们讨论网络数据包中的校验和字段。
 
-```c
-/* TCP packet head */
-typedef struct {
-    u_short sour_port;
-    u_short dest_port;
-    u_int sequ_num;
-    u_int ackn_num;
-    u_short header_len_flag;
-    u_short window;
-    u_short check_sum;
-    u_short surg_point;
-} tcp_header;
-
-/* UDP packet head */
-typedef struct {
-    u_short sour_port;
-    u_short dest_port;
-    u_short length;
-    u_short check_sum;
-} udp_header;
-```
-
-以上三段代码中的check_sum字段就是校验和了，接下来我们利用以上三个结构解析数据包并计算校验和。
-
 ## IP数据包
 
 IP数据包头部的结构如下：
