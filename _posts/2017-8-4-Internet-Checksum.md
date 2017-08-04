@@ -134,7 +134,7 @@ typedef struct {
 
 不过TCP和UDP要复杂一点，在计算校验和的时候，涉及到一个“伪首部”的概念。
 
-伪首部：一个十二位的字段，仅用于校验和的计算，并不在数据包中实际存在，其结构如下：
+伪首部：一个十二位的字段，仅用于校验和的计算，并不在数据包中实际存在，其结构如下：【TCP和UDP的完全相同】
 
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Internet-Checksum-02.png)
 
