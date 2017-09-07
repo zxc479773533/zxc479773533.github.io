@@ -22,7 +22,7 @@ Websocket是建立在TCP之上，兼容HTTP协议的，同样不加密和加密�
 
 Websocket和HTTP协议建立通信的对比流程图如下：
 
-![](images/Websocket-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Websocket-01.png)
 
 我们可以看到，HTTP协议每次均需要客户端(浏览器)对服务器发送一个request，然后接收服务器发送过来的消息，服务器无法做到主动向客户端推送信息。而websocket则是先通过一次握手建立连接，之后客户端和服务器之间便可以进行互相通信。因此，这样的协议就非常适合网页与后端需要频繁进行通信交流的情况。
 
@@ -32,7 +32,7 @@ Websocket和HTTP协议建立通信的对比流程图如下：
 
 首先上一段客户端的代码：
 
-```JavaScript
+```
 // language：JavaScript
 
 // creat websocket
@@ -226,7 +226,7 @@ Sec-WebSocket-Accept: iTYucvheSlIi+ZMY6hfOm1w2F0w=
 
 首先给出一个魔幻的秘钥串：
 
-```c
+```
 #define KEY "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 ```
 
@@ -348,7 +348,7 @@ int shakehands(int sock_client) {
 
 首先介绍websocket协议的数据帧：
 
-```txt
+```
   0                   1                   2                   3
   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
  +-+-+-+-+-------+-+-------------+-------------------------------+
@@ -551,6 +551,6 @@ int SendMessage(int fd, char *payload, int payload_length) {
 
 效果如下：
 
-![](images/Websocket-02.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Websocket-02.png)
 
-![](images/Websocket-03.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Websocket-03.png)
