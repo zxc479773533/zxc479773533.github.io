@@ -33,6 +33,7 @@ Websocket和HTTP协议建立通信的对比流程图如下：
 首先上一段客户端的代码：
 
 ```
+
 // language：JavaScript
 
 // creat websocket
@@ -59,6 +60,7 @@ ws.onclose = function (evt) {
     alert('Connection closed.');
     console.log('Connection closed.');
 }
+
 ```
 
 ### Websocket创建
