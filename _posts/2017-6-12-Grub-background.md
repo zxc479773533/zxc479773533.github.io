@@ -2,8 +2,7 @@
 layout: post
 title: Grub美化-主题和背景图片（in arch）
 tags:
-- arch
-- linux
+- Grub
 categories: Linux
 ---
 我们都知道linux刚装好之后的那个引导界面是一个黑框白字的界面，相信大家用时间长之后也觉得这个界面不怎么好看吧。今天下午我动手修改了一下，让开机启动的界面变得好看了许多，接下来我来总结一下修改的经过。
