@@ -279,9 +279,9 @@ fa 18 40 00 c3 61 61 61
 
 例如我们有如下的几个对照表，给出了一些常见的赋值之类的操作对应的十六进制值。
 
-![](images/Attack-Lab-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Attack-Lab-01.png)
 
-![](images/Attack-Lab-02.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Attack-Lab-02.png)
 
 此外再补充一个指令：nop，没有任何操作，对应字节是`0x90`
 
