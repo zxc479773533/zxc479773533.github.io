@@ -15,11 +15,11 @@ Performance Lab其实是本书第二版中这一章节的实验，在第三版�
 
 这个实验要求你优化两个图像处理函数，分别是`rotate`（把图像逆时针旋转90°），`smooth`（使图像变平滑）。讲义上给出的算法如下：
 
-![](images/Performance-Lab-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Performance-Lab-01.png)
 
-![](images/Performance-Lab-02.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Performance-Lab-02.png)
 
-![](images/Performance-Lab-03.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Performance-Lab-03.png)
 
 简单的说，就是旋转操作先进行一个转置，进行对行的上下颠倒。平滑操作要把每一个位置的值变成它周围一圈的值的平均值。
 
