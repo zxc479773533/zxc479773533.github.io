@@ -2,7 +2,7 @@
 layout: post
 title: CS:APP3e-labs Performance Lab 解题报告
 tags:
-- Assembly
+- Optimization
 - Operating system
 categories: CSAPP
 ---
@@ -12,6 +12,8 @@ categories: CSAPP
 Performance Lab其实是本书第二版中这一章节的实验，在第三版中它已经被Cache Lab取代，不过作为Cache Lab的一个预热，也是值得做一做的。当然这个Lab比较简单，我就不做过多说明了。
 
 ## Performance Lab 简介
+
+github地址：[Performance Lab](https://github.com/zxc479773533/CS-APP3e-labs/tree/master/performancelab)
 
 这个实验要求你优化两个图像处理函数，分别是`rotate`（把图像逆时针旋转90°），`smooth`（使图像变平滑）。讲义上给出的算法如下：
 
