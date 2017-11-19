@@ -7,8 +7,7 @@ tags:
 categories: CSAPP
 ---
 
-接下来两个lab都是和程序优化有关，内容基于CSAPP的*第五章：优化程序性能*和第六章*存储器层次结构*
-
+接下来两个lab都是和程序优化有关，内容基于CSAPP的*第五章：优化程序性能*和第六章*存储器层次结构*。<br/>
 Performance Lab其实是本书第二版中这一章节的实验，在第三版中它已经被Cache Lab取代，不过作为Cache Lab的一个预热，也是值得做一做的。当然这个Lab比较简单，我就不做过多说明了。
 
 ## Performance Lab 简介
