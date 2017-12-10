@@ -28,7 +28,7 @@ defaults:
 paginate: 20
 
 #### Site
-title : A salted fish's blog
+title : zxcpyp's blog
 tagline: A salted fish is working hard to be stronger.<br/>文章内容允许转载，转载请注明来源。
 assets: /assets
 baseurl:
