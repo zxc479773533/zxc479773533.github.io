@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Websocket介绍与C语言实现服务器
+title: Websocket介绍与C语言实现服务端
 tags:
 - Protocol
 - C
