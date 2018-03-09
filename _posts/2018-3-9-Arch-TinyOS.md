@@ -15,7 +15,7 @@ TelosB节点(TPR2420)最初由Berkeley大学研发、发布，具有低功耗和
 
 下图即为TelosB节点：
 
-![](./images/Arch-TinyOS-01.jpg)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Arch-TinyOS-01.jpg)
 
 ## 必要的软件包
 
