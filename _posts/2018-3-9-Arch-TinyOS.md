@@ -7,7 +7,7 @@ tags:
 categories: Linux
 ---
 
-最近拿到了学校发的DEVISER TelosB节点，由于老师给的文档是基于Ubuntu14.04的，而我使用的是Archlinux。并且发现在Arch环境下配置还有些不同的地方，于是收集资料整理了这一篇在Archlinux环境下配置TinyOS的教程。详细说明了在Arch环境下需要安装的软件包，配置的环境变量和py版本的处理等问题。最后还附加了一个烧写亮灯程序的示例。
+最近拿到了Dr. Ke Shi发的DEVISER TelosB节点，由于Dr.给的文档是基于Ubuntu14.04的，而我使用的是Archlinux。并且发现在Arch环境下配置还有些不同的地方，于是收集资料整理了这一篇在Archlinux环境下配置TinyOS的教程。详细说明了在Arch环境下需要安装的软件包，配置的环境变量和py版本的处理等问题。最后还附加了一个烧写亮灯程序的示例。
 
 ## DEVISER TelosB节点介绍
 
