@@ -13,7 +13,8 @@ categories: Linux
 
 ![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Grub-background-01.png)
 
-在配置文件里面可以看到很多属性，理解也比较简单，这里我就不多说了，加“#”注释的又很多隐藏的功能，你可以去掉注释使用。<br/><br/>
+在配置文件里面可以看到很多属性，理解也比较简单，这里我就不多说了，加“#”注释的又很多隐藏的功能，你可以去掉注释使用。
+
 其中有两条是：#GRUB_BACKGROUND和#GRUB_THEME，这两条分别是grub的背景和grub的主题配置，如果只是想简单的修改背景，那么只需要将#GRUB_BACKGROUND前面的#去掉，在""内写上图片的路径即可（注意是png格式）。
 
 如果需要修改主题，则要将#GRUB_THEME前面的#去掉，在""内填上该主题的配置文件，现在以Arch Linux装上之后自带的一个starfield主题为例来讲。（注意如果你要修改主题就不需要改上面的GRUB_BACKGROUND）
