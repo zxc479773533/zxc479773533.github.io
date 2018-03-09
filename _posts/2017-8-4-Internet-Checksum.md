@@ -24,19 +24,19 @@ Internet校验和，是一个存在于IP，TCP，UDP等数据包的头部的一�
 // len：要计算校验和的长度
 u_short checksum(u_short *buf, int len) {
 
-    u_long cksum = 0;
+  u_long cksum = 0;
 
-    while(len > 1) {
-        cksum += *buf++;
-        len -= sizeof(u_short);
-    }
+  while(len > 1) {
+    cksum += *buf++;
+    len -= sizeof(u_short);
+  }
 
-    if (len)
-        cksum += *(u_char *)buf;
+  if (len)
+    cksum += *(u_char *)buf;
 
-    while (cksum >> 16)
-        cksum = (cksum >> 16) + (cksum & 0xffff);
-    return (u_short)(~cksum);
+  while (cksum >> 16)
+    cksum = (cksum >> 16) + (cksum & 0xffff);
+  return (u_short)(~cksum);
 }
 ```
 
@@ -53,16 +53,16 @@ IP数据包头部的结构如下：
 ```c
 /* ip packet head */
 typedef struct {
-    u_char verson_head;
-    u_char type_of_service;
-    u_short packet_len;
-    u_short packet_id;
-    u_short slice_info;
-    u_char TTL;
-    u_char protocol_type;
-    u_short check_sum;
-    u_char src_ip[4];
-    u_char dest_ip[4];
+  u_char verson_head;
+  u_char type_of_service;
+  u_short packet_len;
+  u_short packet_id;
+  u_short slice_info;
+  u_char TTL;
+  u_char protocol_type;
+  u_short check_sum;
+  u_char src_ip[4];
+  u_char dest_ip[4];
 } ip_header;
 ```
 
@@ -79,14 +79,14 @@ TCP数据包头部的结构如下：
 ```c
 /* TCP packet head */
 typedef struct {
-    u_short sour_port;
-    u_short dest_port;
-    u_int sequ_num;
-    u_int ackn_num;
-    u_short header_len_flag;
-    u_short window;
-    u_short check_sum;
-    u_short surg_point;
+  u_short sour_port;
+  u_short dest_port;
+  u_int sequ_num;
+  u_int ackn_num;
+  u_short header_len_flag;
+  u_short window;
+  u_short check_sum;
+  u_short surg_point;
 } tcp_header;
 ```
 
@@ -99,10 +99,10 @@ UDP数据包头部的结构如下：
 ```c
 /* UDP packet head */
 typedef struct {
-    u_short sour_port;
-    u_short dest_port;
-    u_short length;
-    u_short check_sum;
+  u_short sour_port;
+  u_short dest_port;
+  u_short length;
+  u_short check_sum;
 } udp_header;
 ```
 
@@ -119,11 +119,11 @@ typedef struct {
 ```c
 /* TCP/UDP pseudo head */
 typedef struct {
-    u_long src_ip;
-    u_long dst_ip;
-    u_char place_holder;
-    u_char protocal_type;
-    u_short len;
+  u_long src_ip;
+  u_long dst_ip;
+  u_char place_holder;
+  u_char protocal_type;
+  u_short len;
 } pseudo_header;
 ```
 
@@ -145,57 +145,57 @@ typedef struct {
 ```c
 int PacketCheckSum(u_char *packet, int len) {
 
-    /* reject packet except IPv4 */
-    ethernet_header *pEther = (ethernet_header *)packet;
-    if (ntohs(pEther->eth_type) != EPT_IPv4)
-        return 1;
+  /* reject packet except IPv4 */
+  ethernet_header *pEther = (ethernet_header *)packet;
+  if (ntohs(pEther->eth_type) != EPT_IPv4)
+    return 1;
 
-    ip_header *pIpv4 = (ip_header *)(packet + 14);
+  ip_header *pIpv4 = (ip_header *)(packet + 14);
 
-    /* TCP checksum */
-    if (pIpv4->protocol_type == PROTOCOL_TCP) {
-        
-        tcp_header *pTcp = (tcp_header *)(packet + 34);
-        pseudo_header Pse;
-        Pse.src_ip = (u_long)pIpv4->src_ip;
-        Pse.dst_ip = (u_long)pIpv4->dest_ip;
-        Pse.place_holder = 0;
-        Pse.protocal_type = PROTOCOL_TCP;
-        Pse.len = htons(len - 34);
+  /* TCP checksum */
+  if (pIpv4->protocol_type == PROTOCOL_TCP) {
 
-        u_char *data = (u_char *)malloc(len - 34 + 12);
-        if (data == NULL)
-            return 1;
-        memset(data, 0, len - 34 + 12);
-        memcpy(data, &Pse, 12);
-        memcpy(data + 12, packet + 34, len - 34);
-        pTcp->check_sum = checksum((u_short *)data, len - 34 + 12);
-    }
+    tcp_header *pTcp = (tcp_header *)(packet + 34);
+    pseudo_header Pse;
+    Pse.src_ip = (u_long)pIpv4->src_ip;
+    Pse.dst_ip = (u_long)pIpv4->dest_ip;
+    Pse.place_holder = 0;
+    Pse.protocal_type = PROTOCOL_TCP;
+    Pse.len = htons(len - 34);
 
-    /* UDP checksum */
-    else if (pIpv4->protocol_type == PROTOCOL_UDP) {
+    u_char *data = (u_char *)malloc(len - 34 + 12);
+    if (data == NULL)
+      return 1;
+    memset(data, 0, len - 34 + 12);
+    memcpy(data, &Pse, 12);
+    memcpy(data + 12, packet + 34, len - 34);
+    pTcp->check_sum = checksum((u_short *)data, len - 34 + 12);
+  }
 
-        udp_header *pUdp = (udp_header *)(packet + 34);
-        pseudo_header Pse;
-        Pse.src_ip = (u_long)pIpv4->src_ip;
-        Pse.dst_ip = (u_long)pIpv4->dest_ip;
-        Pse.place_holder = 0;
-        Pse.protocal_type = PROTOCOL_UDP;
-        Pse.len = htons(len - 34);
+  /* UDP checksum */
+  else if (pIpv4->protocol_type == PROTOCOL_UDP) {
 
-        u_char *data = (u_char *)malloc(len - 34 + 12);
-        if (data == NULL)
-            return 1;
-        memset(data, 0, len - 34 + 12);
-        memcpy(data, &Pse, 12);
-        memcpy(data + 12, packet + 34, len - 34);
-        pUdp->check_sum = checksum((u_short *)data, len -34 + 12);
-    }
+    udp_header *pUdp = (udp_header *)(packet + 34);
+    pseudo_header Pse;
+    Pse.src_ip = (u_long)pIpv4->src_ip;
+    Pse.dst_ip = (u_long)pIpv4->dest_ip;
+    Pse.place_holder = 0;
+    Pse.protocal_type = PROTOCOL_UDP;
+    Pse.len = htons(len - 34);
 
-    /* IP checksum */
-    pIpv4->check_sum = 0;
-    pIpv4->check_sum = checksum((u_short *)pIpv4, 20);
+    u_char *data = (u_char *)malloc(len - 34 + 12);
+    if (data == NULL)
+      return 1;
+    memset(data, 0, len - 34 + 12);
+    memcpy(data, &Pse, 12);
+    memcpy(data + 12, packet + 34, len - 34);
+    pUdp->check_sum = checksum((u_short *)data, len -34 + 12);
+  }
 
-    return 0;
+  /* IP checksum */
+  pIpv4->check_sum = 0;
+  pIpv4->check_sum = checksum((u_short *)pIpv4, 20);
+
+  return 0;
 }
 ```
