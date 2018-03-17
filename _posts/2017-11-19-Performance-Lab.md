@@ -3,7 +3,6 @@ layout: post
 title: CS:APP3e-labs Performance Lab 解题报告
 tags:
 - Optimization
-- Operating system
 categories: CSAPP
 ---
 

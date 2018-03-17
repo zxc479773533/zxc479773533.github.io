@@ -2,8 +2,8 @@
 layout: post
 title: Internet校验和与C语言实现
 tags:
-- Net Attack
-- C
+- Security
+- TCP/IP
 categories: Network
 ---
 Internet校验和，是一个存在于IP，TCP，UDP等数据包的头部的一个16位的字段，用以检测数据的完整性，本文将讲解网络数据包中的校验和计算算法，并附上C语言实现代码。

@@ -2,9 +2,8 @@
 layout: post
 title: 左倾红黑树的C++实现
 tags:
-- Graph
-- C++
-categories: Algorithms
+- C/C++
+categories: Algorithm
 ---
 Unique Studio Lab 第一期任务，在完成之后整理一下经验。
 

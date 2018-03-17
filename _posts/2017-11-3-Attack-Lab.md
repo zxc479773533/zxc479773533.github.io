@@ -3,7 +3,6 @@ layout: post
 title: CS:APP3e-labs Attack Lab 解题报告
 tags:
 - Assembly
-- Operating system
 categories: CSAPP
 ---
 

@@ -2,8 +2,7 @@
 layout: post
 title: KMP算法详解
 tags:
-- Match
-- C
+- C/C++
 categories: Algorithms
 ---
 最近看到了KMP算法，第一次看这个也确实是头疼，上网查了一下发现确实又很多人都在说这个算法不好理解，于是我在自己搞懂之后，决定自己写一个KMP算法的教程（C语言），与大家分享一下。

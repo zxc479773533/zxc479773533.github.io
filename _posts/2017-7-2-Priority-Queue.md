@@ -2,8 +2,7 @@
 layout: post
 title: 优先队列的C++实现
 tags:
-- Graph
-- C++
+- C/C++
 categories: Algorithms
 ---
 Unique Studio Lab 第一期任务，在完成之后整理一下经验。PS:第一次接触C++，花了大半天速成C++，部分代码可能尚存在C语言的习惯。
