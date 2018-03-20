@@ -2,7 +2,7 @@
 layout: post
 title: Grub美化-主题和背景图片（in arch）
 tags:
-- Grub
+- Beautify
 - Arch
 categories: Linux
 ---
