@@ -74,7 +74,7 @@ xwinwrap -ni -o 1.0 -fs -s -st -sp -b -nf -- mplayer -wid WID -quiet -nosound -l
 
 运行时的效果如下：
 
-![](images/Linux-Live-Wallpaper-01.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Linux-Live-Wallpaper-01.png)
 
 ## 更好用的komorebi
 
@@ -135,7 +135,7 @@ DateFont=Lato Light 26 // 日期字体和大小
 
 这个时候，对着桌面右键更换桌面，应该就可以看到我们创建的动态桌面了。
 
-![](images/Linux-Live-Wallpaper-02.gif)
+![](https://github.com/zxc479773533/zxc479773533.github.io/raw/master/_posts/images/Linux-Live-Wallpaper-02.gif)
 
 ## 附:Linux下字体安装
 
