@@ -90,7 +90,7 @@ author:
   weibo_verifier:  ## e.g. b3593ceb Your weibo-show widget verifier ,if you use weibo-show it is needed.
   tsina:      ## e.g. 2176287895  Your weibo ID,It will be used in share button.
   douban:     ## e.g. wuchong1014 or your id for https://www.douban.com/people/wuchong1014
-  zhihu:      mario-10-25
+  zhihu:      ## mario-10-25
   email:      zxc479773533@gmail.com
   twitter:    zxc479773533
   github:     zxc479773533
