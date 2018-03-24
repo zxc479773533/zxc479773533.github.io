@@ -66,7 +66,7 @@ ws.onclose = function (evt) {
 
 首先第一步当然是创建一个websocket对象。
 
-```
+```java
 var ws = new WebSocket('ws://localhost:8080');
 ```
 
