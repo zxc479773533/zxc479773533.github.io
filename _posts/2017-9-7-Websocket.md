@@ -31,7 +31,7 @@ Websocket和HTTP协议建立通信的对比流程图如下：
 
 首先上一段客户端的代码：
 
-```JS
+```java
 
 // language：JavaScript
 
@@ -548,7 +548,7 @@ int SendMessage(int fd, char *payload, int payload_length) {
 
 ## 应用展示
 
-最后我将它应用在了C语言课程设计中，为一个物流配送管理系统HTML前端和C后台之间建立通信。
+最后我将它应用在了C语言课程设计中，为一个物流配送管理系统HTML前端和C后台之间建立通信，实现了前后端分离的一个效果。
 
 效果如下：
 
