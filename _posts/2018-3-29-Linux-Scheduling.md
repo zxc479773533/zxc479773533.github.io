@@ -133,7 +133,7 @@ categories: OS
 
 这种算法的基本思想是，系统给每个进程赋予了一个优先级，同时对每个优先级维护一个就绪队列，如图所示：
 
-![](images/Linux-Scheduling-01.jpg)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Linux-Scheduling-01.jpg)
 
 系统总是先让高优先级队列中的进程执行，以此类推。
 
@@ -145,7 +145,7 @@ categories: OS
 
 这种负反馈的方式在保证了优先级调度的同时又很好的解决了高优先级但时间很长的进程的问题。
 
-![](images/Linux-Scheduling-02.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Linux-Scheduling-02.png)
 
 ### 彩票调度
 
@@ -181,7 +181,7 @@ categories: OS
 
 如果m是实时任务的数目，每个任务以pi为周期发生，并且CPU需要ci秒来处理这个事件，那么可以处理负载的条件如下。
 
-![](images/Linux-Scheduling-03.png)
+![](https://raw.githubusercontent.com/zxc479773533/zxc479773533.github.io/master/_posts/images/Linux-Scheduling-03.png)
 
 不满足这个检验条件的进程不能被调度，因为它是不可实现的（超出了CPU的处理能力）。
 
