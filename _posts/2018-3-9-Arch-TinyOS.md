@@ -165,7 +165,7 @@ FTOJLCD    /dev/ttyUSB0     FTDI USB <-> Serial Converter
 
 ```sh
 cd $TOSROOT/apps/Blink
-sudo make telosb install /dev/ttyUSB0
+make telosb install /dev/ttyUSB0
 ```
 
 但是，我们却遇到了如下的问题：
@@ -201,5 +201,5 @@ AttributeError: 'Serial' object has no attribute 'setBaudrate'
 最后，执行编译命令，搞定！指示灯马上亮起来！
 
 ```
-sudo make telosb install /dev/ttyUSB0
+make telosb install /dev/ttyUSB0
 ```
